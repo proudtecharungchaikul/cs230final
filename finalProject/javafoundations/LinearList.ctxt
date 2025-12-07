@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=LinearList
+comment1.params=
+comment1.target=boolean\ isEmpty()
+comment1.text=\n\ Checks\ if\ the\ list\ is\ empty\n\ \n\ @return\ true\ if\ the\ list\ is\ empty,\ false\ otherwise\n
+comment2.params=
+comment2.target=int\ size()
+comment2.text=\n\ Returns\ the\ size\ of\ the\ list\n\ \n\ @return\ the\ size\ (or\ length)\ of\ the\ list\n
+comment3.params=position
+comment3.target=java.lang.Object\ get(int)
+comment3.text=\n\ Returns\ the\ element\ at\ the\ specified\ position\ from\ the\ list\n\n\ @param\ index\ of\ the\ element\ in\ the\ list\n\ @return\ the\ element\ to\ be\ returned\n
+comment4.params=position\ element
+comment4.target=void\ insert(int,\ java.lang.Object)
+comment4.text=\n\ Inserts\ an\ element\ at\ the\ given\ position\ in\ the\ list.\n\ \n\ @param\ the\ index\ of\ the\ element\ to\ be\ added\n\ @param\ the\ element\ to\ be\ added\n
+comment5.params=position
+comment5.target=java.lang.Object\ remove(int)
+comment5.text=\n\ Removes\ the\ element\ at\ the\ specified\ position\ from\ the\ list\n\ \n\ @return\ the\ element\ to\ be\ returned\n
+comment6.params=
+comment6.target=java.lang.String\ toString()
+comment6.text=\n\ Generates\ a\ String\ representation\ of\ list;\ \n\ first\ element\ in\ the\ representation\ is\ the\ front\n\ \n\ @return\ a\ String\ representation\ of\ the\ list\n
+numComments=7
