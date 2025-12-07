@@ -46,6 +46,7 @@ public class BloodMap<String> extends Map<String>
             boolean readingNodes = true;
             while (fileScan.hasNext()){
                 String line = fileScan.nextLine(); 
+                line = "hello";
                 
             }
         }
