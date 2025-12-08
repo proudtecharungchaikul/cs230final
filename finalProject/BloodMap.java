@@ -44,7 +44,6 @@ public class BloodMap<String> extends Map<String>
             Map<String> newMap = new Map<String>(); 
             Scanner fileScan = new Scanner (new File(fileName)); 
             boolean readingNodes = true;
-            for (int i = 0; i < )
             while (fileScan.hasNextLine()){
                 String line = fileScan.nextLine();
                 if (line.equals("#")){
