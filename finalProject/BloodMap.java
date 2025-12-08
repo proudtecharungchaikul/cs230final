@@ -44,11 +44,23 @@ public class BloodMap<String> extends Map<String>
             Map<String> newMap = new Map<String>(); 
             Scanner fileScan = new Scanner (new File(fileName)); 
             boolean readingNodes = true;
-            while (fileScan.hasNext()){
-                String line = fileScan.nextLine(); 
-                line = "hello";
-                
+            for (int i = 0; i < )
+            while (fileScan.hasNextLine()){
+                String line = fileScan.nextLine();
+                if (line.equals("#")){
+                    readingNodes = false;
+                } else if (readingNodes == true){
+                    newMap.addVertex(line);
+                } else {
+                    String[] edgeParts = line.split(" ");
+                    String from = edgeParts[0];
+                    String to = edgeParts[1];
+                    newMap.addArc(from, to);
+                }
             }
+        } catch (IOException e){
+            System.out.println("IO Exception found"); 
+            
         }
     }
     
