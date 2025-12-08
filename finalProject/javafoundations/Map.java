@@ -114,7 +114,6 @@ public class Map<T> implements Graph<T>
      * @param vertex vertex to be removed 
      */
     public void removeVertex (T vertex){
-        boolean result = false; 
         if (vertices.contains(vertex)){
             for (int i = 0; i < arcs.size(); i++){
                 for (int j=0; j < arcs.elementAt(i).size(); j++){
