@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.util.Scanner; 
 
 /**
- * Write a description of class BloodMap here.
+ * BloodMap is a map that calculates the shortest distance from any Hospital and Distribution center of blood.
  *
  * @author Cindy and Proud
  * @version 7 Dec 2025
