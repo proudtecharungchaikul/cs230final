@@ -10,28 +10,27 @@ import java.util.Scanner;
  */
 public class BloodMap<String> extends Map<String>
 {
-    // instance variables
-    private int x;
-
     /**
      * Constructor for objects of class BloodMap
      */
     public BloodMap()
     {
-        // initialise instance variables
-        x = 0;
+        super();
     }
 
+    
+    
     /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
+     * Finds the shortest distance between a Distr center and a Hospital
+     * @param distrCenter the name of the distribution center
+     * @param hospital the name of the hospital
+     * @return an array of strings representing the path from the distribution center to the hospital
      */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
+    public String[] shortestPath(String distrCenter, String hospital){
+        //Implements breadth-first search algorithm to find shortest path btwn any 2 nodes.
+        
+        LinkedQueue<String> queue = new LinkedQueue<String>();
+        
     }
     
     /**
