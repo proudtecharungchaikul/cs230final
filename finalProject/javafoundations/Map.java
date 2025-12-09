@@ -13,8 +13,8 @@ import java.io.File;
 public class Map<T> implements Graph<T>
 {   
     //instance variables
-    private ArrayList<T> vertices; 
-    private ArrayList<UpdatedLinkedList<T>> arcs; 
+    protected ArrayList<T> vertices; 
+    protected ArrayList<UpdatedLinkedList<T>> arcs; 
     
     /**
      * Constuctor for objects of class Map
