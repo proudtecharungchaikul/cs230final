@@ -1,10 +1,6 @@
-import javafoundations.Map;
-import javafoundations.ArrayList;
 import java.io.IOException;
 import java.util.Scanner; 
-import javafoundations.LinkedQueue;
-import javafoundations.UpdatedLinkedList;
-import javafoundations.LinkedStack;
+import javafoundations.*;
 import java.io.File;
 
 /**
@@ -13,7 +9,7 @@ import java.io.File;
  * @author Cindy and Proud
  * @version 7 Dec 2025
  */
-public class BloodMap<String> extends Map<String>
+public class BloodMap<T> extends Map<T>
 {
     /**
      * Constructor for objects of class BloodMap
@@ -29,28 +25,28 @@ public class BloodMap<String> extends Map<String>
      * @param dest
      * @return shortest path btwn source and dest in a array list
      */
-    public ArrayList<String> bfs(String source, String dest){
-        LinkedQueue<ArrayList<String>> q = new LinkedQueue<ArrayList<String>>(); //queue of paths to traverse through
+    public ArrayList<T> bfs(T source, T dest){
+        LinkedQueue<ArrayList<T>> q = new LinkedQueue<ArrayList<T>>(); //queue of paths to traverse through
         boolean[] visited = new boolean[this.vertices.size()]; //mark nodes visited/notvisited
         //initialize visited to false
         for (int i = 0; i < visited.length; i++){
             visited[i] = false;
         }
-        ArrayList<String> firstPath = new ArrayList<String>(); //array of path to be put in queue
+        ArrayList<T> firstPath = new ArrayList<T>(); //array of path to be put in queue
         firstPath.add(source); //add source node to an initial stack
         q.enqueue(firstPath); 
         visited[0] = true; // marks source node visited
 
         while(!q.isEmpty()){ 
-            ArrayList<String> currentPath = q.dequeue(); //path we are iterating through
-            String currentNode = currentPath.elementAt(currentPath.size()); //node we are iterating through (most recent node in stack)
+            ArrayList<T> currentPath = q.dequeue(); //path we are iterating through
+            T currentNode = currentPath.elementAt(currentPath.size()); //node we are iterating through (most recent node in stack)
             if (dest.equals(currentNode)){ //if our current node is the destination, return path
                     return currentPath;
                 }
-            UpdatedLinkedList<String> neighbors = this.arcs.elementAt(this.vertices.indexOf(currentNode)); //linked list of neighbors of currentNode
+            UpdatedLinkedList<T> neighbors = this.arcs.elementAt(this.vertices.indexOf(currentNode)); //linked list of neighbors of currentNode
             for (int j = 0; j < neighbors.size(); j++){ //iterates through each neighboring node of current node
                 if (!visited[j]){
-                    ArrayList<String> newPath = new ArrayList<String>();
+                    ArrayList<T> newPath = new ArrayList<T>();
                     for (int k = 0; k < currentPath.size(); k++){
                         newPath.add(currentPath.elementAt(k));
                     }
@@ -70,7 +66,7 @@ public class BloodMap<String> extends Map<String>
      * We are thinking about the SaveTGF method in Map
      * Turn it from the file to a graph that we can use
      */
-    public void readTGF(String fileName) throws IOException{
+    public Map<String> readTGF(String fileName) throws IOException{
         try{
             Map<String> newMap = new Map<String>(); 
             Scanner fileScan = new Scanner (new File(fileName)); 
@@ -88,13 +84,18 @@ public class BloodMap<String> extends Map<String>
                     newMap.addArc(from, to);
                 }
             }
+            return newMap;
         } catch (IOException e){
             System.out.println("IO Exception found"); 
-            
+            return null;//????
         }
     }
     
     /**
      * 
      */
+    public static void main(String[] args){
+        BloodMap<String> map1 = new BloodMap<String>();
+        
+    }
 }
