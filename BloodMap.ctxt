@@ -12,5 +12,5 @@ comment3.target=javafoundations.Map\ readTGF(java.lang.String)
 comment3.text=\n\ First\ step\ is\ to\ read\ from\ a\ given\ file\n\ We\ are\ thinking\ about\ the\ SaveTGF\ method\ in\ Map\n\ Turn\ it\ from\ the\ file\ to\ a\ graph\ that\ we\ can\ use\n
 comment4.params=args
 comment4.target=void\ main(java.lang.String[])
-comment4.text=\n\ \n
+comment4.text=\n\ Main\ method\ for\ testing\n
 numComments=5

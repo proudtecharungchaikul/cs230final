@@ -98,7 +98,7 @@ public class BloodMap<T> extends Map<T>
     }
     
     /**
-     * 
+     * Main method for testing
      */
     public static void main(String[] args){
         BloodMap<String> map1 = new BloodMap<String>();
