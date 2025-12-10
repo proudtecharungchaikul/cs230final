@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Scanner; 
 import javafoundations.LinkedQueue;
 import javafoundations.UpdatedLinkedList;
+import javafoundations.LinkedStack;
+import java.io.File;
 
 /**
  * BloodMap is a map that calculates the shortest distance from any Hospital and Distribution center of blood.
@@ -24,49 +26,43 @@ public class BloodMap<String> extends Map<String>
     /**
      * Breadth-first search to find distances between a source node and all other nodes
      * @param source
-     * @param parents
-     * @param distances
+     * @param dest
+     * @return shortest path btwn source and dest in a array list
      */
-    public void bfs(String source, String[] parents, Integer[] distances){
-        //Queue to store nodes to visit
-        LinkedQueue<String> queue = new LinkedQueue<String>();
-        //Source node distance is 0
-        distances[vertices.indexOf(source)] = 0;
-        //enqueue source node
-        queue.enqueue(source);
-        //iterate while queue is not empty
-        while (!queue.isEmpty()){
-            //pop node from front of queue
-            String current = queue.dequeue();
-            //explore neighbors of current node - loop through linkedlist of arcs in adjacency list
-            UpdatedLinkedList<String> neighbors = arcs.elementAt(vertices.indexOf(current));
-            for (int i = 0; i < neighbors.size(); i++){
-                int indexOfNeighbor = vertices.indexOf(neighbors.get(i));
-                //check if neighbor has been visited
-                if (distances[indexOfNeighbor] == null){
-                    //mark current node as parent of neighbor
-                    parents[indexOfNeighbor] = current;
-                    //set distance of neighbor to current distance + 1
-                    distances[indexOfNeighbor] = distances[vertices.indexOf(current)] + 1;
-                    //insert next neighbor into queue
-                    queue.enqueue(neighbors.get(i));
+    public ArrayList<String> bfs(String source, String dest){
+        LinkedQueue<ArrayList<String>> q = new LinkedQueue<ArrayList<String>>(); //queue of paths to traverse through
+        boolean[] visited = new boolean[this.vertices.size()]; //mark nodes visited/notvisited
+        //initialize visited to false
+        for (int i = 0; i < visited.length; i++){
+            visited[i] = false;
+        }
+        ArrayList<String> firstPath = new ArrayList<String>(); //array of path to be put in queue
+        firstPath.add(source); //add source node to an initial stack
+        q.enqueue(firstPath); 
+        visited[0] = true; // marks source node visited
+
+        while(!q.isEmpty()){ 
+            ArrayList<String> currentPath = q.dequeue(); //path we are iterating through
+            String currentNode = currentPath.elementAt(currentPath.size()); //node we are iterating through (most recent node in stack)
+            if (dest.equals(currentNode)){ //if our current node is the destination, return path
+                    return currentPath;
                 }
+            UpdatedLinkedList<String> neighbors = this.arcs.elementAt(this.vertices.indexOf(currentNode)); //linked list of neighbors of currentNode
+            for (int j = 0; j < neighbors.size(); j++){ //iterates through each neighboring node of current node
+                if (!visited[j]){
+                    ArrayList<String> newPath = new ArrayList<String>();
+                    for (int k = 0; k < currentPath.size(); k++){
+                        newPath.add(currentPath.elementAt(k));
+                    }
+                    
+                    newPath.add(neighbors.get(j));
+                    q.enqueue(newPath);
+                    visited[j] = true;
                 }
             }
-        
-    }
-    
-    /**
-     * Finds the shortest distance between a Distr center and a Hospital
-     * @param distrCenter the name of the distribution center
-     * @param hospital the name of the hospital
-     * @return an array of strings representing the path from the distribution center to the hospital
-     */
-    public String[] shortestPath(String distrCenter, String hospital){
-        //Implements breadth-first search algorithm to find shortest path btwn any 2 nodes.
-        
-        LinkedQueue<String> queue = new LinkedQueue<String>();
-        
+        }
+        return null;
+
     }
     
     /**
