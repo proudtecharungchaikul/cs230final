@@ -136,6 +136,12 @@ public class Map<T> implements Graph<T>
      */
     public void addArc (T vertex1, T vertex2){
        int index1 = vertices.indexOf(vertex1); //gives us the index of the linked list of vertex1
+        int index2 = vertices.indexOf(vertex2);
+        
+        if (index1 == -1 || index2 == -1) {
+            System.out.println("Invalid vertices");
+            return; 
+        }
        UpdatedLinkedList<T> arcList = arcs.elementAt(index1); 
        
        arcList.insert(0, vertex2); 

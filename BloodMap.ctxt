@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=BloodMap
+comment0.text=\n\ BloodMap\ is\ a\ map\ that\ calculates\ the\ shortest\ distance\ from\ any\ Hospital\ and\ Distribution\ center\ of\ blood.\n\n\ @author\ Cindy\ and\ Proud\n\ @version\ 7\ Dec\ 2025\n
+comment1.params=
+comment1.target=BloodMap()
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ BloodMap\n
+comment2.params=source\ dest
+comment2.target=javafoundations.ArrayList\ optimalPath(java.lang.Object,\ java.lang.Object)
+comment2.text=\n\ Breadth-first\ search\ to\ find\ distances\ between\ a\ source\ node\ and\ all\ other\ nodes\n\ @param\ source\n\ @param\ dest\n\ @return\ shortest\ path\ btwn\ source\ and\ dest\ in\ a\ array\ list\n
+comment3.params=fileName
+comment3.target=javafoundations.Map\ readTGF(java.lang.String)
+comment3.text=\n\ First\ step\ is\ to\ read\ from\ a\ given\ file\n\ We\ are\ thinking\ about\ the\ SaveTGF\ method\ in\ Map\n\ Turn\ it\ from\ the\ file\ to\ a\ graph\ that\ we\ can\ use\n
+comment4.params=args
+comment4.target=void\ main(java.lang.String[])
+comment4.text=\n\ \n
+numComments=5
