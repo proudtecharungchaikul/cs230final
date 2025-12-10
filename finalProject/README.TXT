@@ -1,12 +1,3 @@
-------------------------------------------------------------------------
-This is the project README file. Here, you should describe your project.
-Tell the reader (someone who does not know anything about this project)
-all they need to know. The comments should usually include at least:
-------------------------------------------------------------------------
-
-PROJECT TITLE:
-PURPOSE OF PROJECT:
-VERSION or DATE:
-HOW TO START THIS PROJECT:
-AUTHORS:
-USER INSTRUCTIONS:
+CS 230 Final Project
+Creates a BloodMap class that finds the shortest point from a source node to a destination node, being blood distribution centers and hospitals, respectively.
+Authors: Proud Techarungchaikul and Cindy Li
