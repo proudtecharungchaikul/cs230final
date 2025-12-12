@@ -1,3 +1,5 @@
+package Locations;
+
 import java.util.Hashtable; 
 /**
  * Write a description of class Hospital here.

@@ -1,3 +1,4 @@
+package Locations;
 
 /**
  * Write a description of class House here.

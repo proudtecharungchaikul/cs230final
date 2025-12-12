@@ -1,3 +1,5 @@
+package Locations;
+
 
 /**
  * Write a description of class Location here.
@@ -5,7 +7,7 @@
  * @author Cindy and Proud
  * @version 12/11/2025
  */
-public class Location
+public abstract class Location
 {
     // instance variables
     String name; 
