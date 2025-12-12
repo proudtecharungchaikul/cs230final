@@ -194,6 +194,20 @@ public class BloodMap extends Map<Location>
     }
     
     /**
+     * 
+     * @param args
+     */
+    public String toString(){
+        String result;
+       result = "Vertices in the graph: " + "\n";
+       for (int i=0; i<vertices.size(); i++){
+            result += vertices.elementAt(i).toString();
+       }
+       result += "\n" + "Edges in the graph: " + "\n" + this.findEdges().toString();
+       return result;
+    }
+
+    /**
      * Main method for testing
      */
     public static void main(String[] args){
