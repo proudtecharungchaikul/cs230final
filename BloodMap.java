@@ -102,18 +102,16 @@ public class BloodMap extends Map<Location>
     /**
      * 
      */
-    public void transportBlood() {
+    public void transportBlood(String type, Hospital destination) {
         
     }
     
     /**
      * 
      */
-    public void donateBlood() {
+    public void donateBlood(String type, House house) {
         
     }
-    
-    
     
     /**
      * Main method for testing
