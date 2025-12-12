@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Hospital
+comment0.text=\n\ Write\ a\ description\ of\ class\ Hospital\ here.\n\n\ @author\ Cindy\ and\ Proud\n\ @version\ 12/11/2025\n
+comment1.params=name
+comment1.target=Hospital(java.lang.String)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Hospital\n
+comment2.params=type\ amount
+comment2.target=void\ useBlood(java.lang.String,\ int)
+comment2.text=\n\ An\ example\ of\ a\ method\ -\ replace\ this\ comment\ with\ your\ own\n\n\ @param\ \ type\ of\ blood\ to\ use\n\ @param\ amount\ of\ blood\ used\n
+comment3.params=type\ amount
+comment3.target=void\ addBlood(java.lang.String,\ int)
+comment3.text=\n\ @param\ type\ of\ blood\n\ @param\ amount\ of\ blood\ added\ //FIX\:\ shouldn't\ be\ public?\n
+numComments=4

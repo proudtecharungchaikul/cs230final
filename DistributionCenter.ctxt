@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=DistributionCenter
+comment0.text=\n\ Write\ a\ description\ of\ class\ DistributionCenter\ here.\n\n\ @author\ Cindy\ and\ Proud\n\ @version\ 12/11/2025\n
+comment1.params=name
+comment1.target=DistributionCenter(java.lang.String)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ DistributionCenter\n
+comment2.params=type\ amount\ destination
+comment2.target=void\ transportBlood(java.lang.String,\ int,\ Hospital)
+comment2.text=\n\ An\ example\ of\ a\ method\ -\ replace\ this\ comment\ with\ your\ own\n\n\ @param\ type\ -\ type\ of\ blood\ that\ needs\ to\ be\ transported\n\ @param\ amount\ -\ how\ many\ units\ of\ blood\ is\ needed\n\ @param\ destination\ -\ name\ of\ hospital\ to\ transport\ to\ \n
+numComments=3
