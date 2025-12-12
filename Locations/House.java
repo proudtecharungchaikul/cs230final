@@ -58,7 +58,7 @@ public class House extends Location
      * @param type - type of blood that we need
      * @return boolean true if it exists in the house and false otherwise
      */
-    public boolean checkType(String type)
+    private boolean checkType(String type)
     {
         for(int i = 0; i < bloodTypes.length; i++){
             if (type.equals(bloodTypes[i])) {
@@ -66,5 +66,14 @@ public class House extends Location
             }
         }
         return false; 
+    }
+    
+    /**
+     * 
+     */
+    public void donateBlood(String type){
+        if (checkType(type)){
+            
+        }
     }
 }
