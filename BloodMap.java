@@ -142,9 +142,9 @@ public class BloodMap<T> extends Map<T>
         map1.addEdge("P", "N");
         map1.addEdge("P", "Q");
         map1.addEdge("Q", "O");
-        System.out.println(map1); 
+        System.out.println(map1 + "\n"); 
         
-        System.out.println(map1.optimalPath("A", "E"));
-        System.out.println(map1.optimalPath("A", "Z"));
+        System.out.println("Optimal path from 'A' to 'E' Expect: [A, G, H, I, E,] Got: " + map1.optimalPath("A", "E"));
+        System.out.println("Optimal path from 'A' to 'Z' Expect: null Got: " + map1.optimalPath("A", "Z"));
     }
 }
