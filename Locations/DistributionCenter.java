@@ -1,9 +1,8 @@
 package Locations;
 
-
 import java.util.Hashtable; 
 /**
- * Write a description of class DistributionCenter here.
+ * A type of location that can receive donated blood from Houses and distribute to Hospitals
  *
  * @author Cindy and Proud
  * @version 12/11/2025
@@ -26,29 +25,27 @@ public class DistributionCenter extends Location
         this.bloodBank.put("O", 0);
         this.bloodBank.put("AB", 0);
     }
-
+    
     /**
-     * An example of a method - replace this comment with your own
+     * Removes specific amount of certain blood type from the bloodBank
      *
-     * @param type - type of blood that needs to be transported
-     * @param amount - how many units of blood is needed
-     * @param destination - name of hospital to transport to 
+     * @param type - type of blood to remove
+     * @param amount - amount of blood remove
      */
-    public void transportBlood(String type, int amount, Hospital destination)
+    public void removeBlood(String type, int amount)
     {
-        //get current value of the blood type we need
-        int currentAmount = this.bloodBank.get(type); 
-        //subtract needed amount from current value --> if less than zero, print out alert and transport anyways
-        if (currentAmount - amount < 0){
-            System.out.println("Not enough blood. Transporting " + currentAmount + " to hospital");
-            this.bloodBank.put(type, 0);
-            System.out.println("ALERT: calling for donors of blood type " + type); 
-            destination.addBlood(type, currentAmount);
-        } else {
-            //if it's enough blood, transport the full amount to the hospital (subtract from distCen bloodBank
-            this.bloodBank.put(type, currentAmount - amount);
-            //add to hospital inventory
-            destination.addBlood(type, amount);
-        }
+        int currentAmount = this.bloodBank.get(type);
+        this.bloodBank.put(type, currentAmount - amount); 
+    }
+    
+    /**
+     * Adds specific amount of certain blood type to the bloodBank
+     * 
+     * @param type - type of blood to add
+     * @param amount - amount of blood to add
+     */
+    public void addBlood(String type, int amount){
+        int currentAmount = this.bloodBank.get(type);
+        this.bloodBank.put(type, currentAmount + amount);
     }
 }

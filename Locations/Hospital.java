@@ -2,7 +2,7 @@ package Locations;
 
 import java.util.Hashtable; 
 /**
- * Write a description of class Hospital here.
+ * A type of location that can use blood and ask for blood from Distribution Centers
  *
  * @author Cindy and Proud
  * @version 12/11/2025
@@ -27,29 +27,22 @@ public class Hospital extends Location
     }
 
     /**
-     * An example of a method - replace this comment with your own
+     * Removes specific amount of certain blood type from the inventory
      *
-     * @param  type of blood to use
-     * @param amount of blood used
+     * @param type - type of blood to remove
+     * @param amount - amount of blood remove
      */
-    public void useBlood(String type, int amount)
+    public void removeBlood(String type, int amount)
     {
-        //get current value of the blood type we need to use
         int currentAmount = this.inventory.get(type);
-        int missingAmount = amount - currentAmount; 
-        //subtract needed amount from current value --> if less than zero, print out alert and transport anyways
-        if (currentAmount - amount < 0){
-            System.out.println("Not enough blood. Only have " + currentAmount);
-            this.inventory.put(type, 0);
-            System.out.println("ALERT: please transport at least " + missingAmount + " of blood type " + type + " from nearest distribution center.");
-        } else {
-            this.inventory.put(type, currentAmount - amount);
-        }
+        this.inventory.put(type, currentAmount - amount); 
     }
     
     /**
-     * @param type of blood
-     * @param amount of blood added //FIX: shouldn't be public?
+     * Adds specific amount of certain blood type to the inventory
+     * 
+     * @param type - type of blood to add
+     * @param amount - amount of blood to add
      */
     public void addBlood(String type, int amount){
         int currentAmount = this.inventory.get(type);

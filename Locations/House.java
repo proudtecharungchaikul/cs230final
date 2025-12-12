@@ -1,7 +1,7 @@
 package Locations;
 
 /**
- * Write a description of class House here.
+ * A type of location that can only donate blood to the nearest Distribution Center
  *
  * @author Cindy and Proud 
  * @version 12/11/2025
@@ -12,7 +12,7 @@ public class House extends Location
     String[] bloodTypes; 
 
     /**
-     * Constructor for objects of class House
+     * Constructor for objects of class House with 1 bloodType
      */
     public House(String name, String type1)
     {
@@ -23,7 +23,7 @@ public class House extends Location
     }
     
     /**
-     * Constructor for objects of class House
+     * Constructor for objects of class House with 2 bloodTypes
      */
     public House(String name, String type1, String type2)
     {
@@ -33,7 +33,7 @@ public class House extends Location
     }
     
     /**
-     * Constructor for objects of class House
+     * Constructor for objects of class House with 3 bloodTypes
      */
     public House(String name, String type1, String type2, String type3)
     {
@@ -43,7 +43,7 @@ public class House extends Location
     }
     
     /**
-     * Constructor for objects of class House
+     * Constructor for objects of class House with 4 bloodTypes
      */
     public House(String name, String type1, String type2, String type3, String type4)
     {
@@ -53,18 +53,18 @@ public class House extends Location
     }
 
     /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
+     * Makes sure that the type of blood exists in the house
+     * 
+     * @param type - type of blood that we need
+     * @return boolean true if it exists in the house and false otherwise
      */
-    public void donateBlood(String type)
+    public boolean checkType(String type)
     {
         for(int i = 0; i < bloodTypes.length; i++){
             if (type.equals(bloodTypes[i])) {
-                //donate blood to nearest distribution center
-                
+                return true; 
             }
         }
+        return false; 
     }
 }

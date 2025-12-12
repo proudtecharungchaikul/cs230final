@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=House
+comment0.text=\n\ A\ type\ of\ location\ that\ can\ only\ donate\ blood\ to\ the\ nearest\ Distribution\ Center\n\n\ @author\ Cindy\ and\ Proud\ \n\ @version\ 12/11/2025\n
+comment1.params=name\ type1
+comment1.target=House(java.lang.String,\ java.lang.String)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ House\ with\ 1\ bloodType\n
+comment2.params=name\ type1\ type2
+comment2.target=House(java.lang.String,\ java.lang.String,\ java.lang.String)
+comment2.text=\n\ Constructor\ for\ objects\ of\ class\ House\ with\ 2\ bloodTypes\n
+comment3.params=name\ type1\ type2\ type3
+comment3.target=House(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment3.text=\n\ Constructor\ for\ objects\ of\ class\ House\ with\ 3\ bloodTypes\n
+comment4.params=name\ type1\ type2\ type3\ type4
+comment4.target=House(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment4.text=\n\ Constructor\ for\ objects\ of\ class\ House\ with\ 4\ bloodTypes\n
+comment5.params=type
+comment5.target=boolean\ checkType(java.lang.String)
+comment5.text=\n\ Makes\ sure\ that\ the\ type\ of\ blood\ exists\ in\ the\ house\n\ \n\ @param\ type\ -\ type\ of\ blood\ that\ we\ need\n\ @return\ boolean\ true\ if\ it\ exists\ in\ the\ house\ and\ false\ otherwise\n
+numComments=6
