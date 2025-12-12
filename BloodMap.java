@@ -211,49 +211,67 @@ public class BloodMap extends Map<Location>
      * Main method for testing
      */
     public static void main(String[] args){
-        BloodMap<String> map1 = new BloodMap<String>();
+        BloodMap map1 = new BloodMap();
         
-        map1.addVertex("A");
-        map1.addVertex("B");
-        map1.addVertex("C");
-        map1.addVertex("D");
-        map1.addVertex("E");
-        map1.addVertex("F");
-        map1.addVertex("G");
-        map1.addVertex("H");
-        map1.addVertex("I");
-        map1.addVertex("J");
-        map1.addVertex("K");
-        map1.addVertex("L");
-        map1.addVertex("M");
-        map1.addVertex("N");
-        map1.addVertex("O");
-        map1.addVertex("P");
-        map1.addVertex("Q");
+        House house1 = new House("house1", "A"); 
+        House house2 = new House("house2", "B"); 
+        House house3 = new House("house3", "A", "B"); 
+        House house4 = new House("house4", "A", "O"); 
+        House house5 = new House("house5", "A", "B", "O"); 
+        House house6 = new House("house6", "O"); 
+        House house7 = new House("house7", "B", "O"); 
+        House house8 = new House("house8", "O", "AB"); 
+        House house9 = new House("house9", "B", "O", "AB"); 
+        House house10 = new House("house10", "B", "AB"); 
+        House house11 = new House("house11", "A", "B", "O", "AB"); 
+        House house12 = new House("house12", "AB"); 
+        House house13 = new House("house13", "A", "AB"); 
+        Hospital hospital1 = new Hospital("hospital1");
+        Hospital hospital2 = new Hospital("hospital2");
+        DistributionCenter DC1 = new DistributionCenter("DC1");
+        DistributionCenter DC2 = new DistributionCenter("DC2");
+        
+        map1.addVertex(house1);
+        map1.addVertex(house2);
+        map1.addVertex(house3);
+        map1.addVertex(house4);
+        map1.addVertex(house5);
+        map1.addVertex(house6);
+        map1.addVertex(house7);
+        map1.addVertex(house8);
+        map1.addVertex(house9);
+        map1.addVertex(house10);
+        map1.addVertex(house11);
+        map1.addVertex(house12);
+        map1.addVertex(house13);
+        map1.addVertex(hospital1);
+        map1.addVertex(hospital2);
+        map1.addVertex(DC1);
+        map1.addVertex(DC2);
         System.out.println(map1);
         
-        map1.addEdge("A", "B");
-        map1.addEdge("A", "G"); 
-        map1.addEdge("B", "C");
-        map1.addEdge("D", "E");
-        map1.addEdge("E", "F");
-        map1.addEdge("C", "H");
-        map1.addEdge("E", "I");
-        map1.addEdge("G", "H");
-        map1.addEdge("G", "J");
-        map1.addEdge("H", "I");
-        map1.addEdge("I", "K");
-        map1.addEdge("I", "L");
-        map1.addEdge("J", "K");
-        map1.addEdge("J", "P");
-        map1.addEdge("L", "M");
-        map1.addEdge("L", "P");
-        map1.addEdge("P", "N");
-        map1.addEdge("P", "Q");
-        map1.addEdge("Q", "O");
+        map1.addEdge(house1, DC1);
+        map1.addEdge(house1, house5); 
+        map1.addEdge(DC1, house2);
+        map1.addEdge(house3, hospital1);
+        map1.addEdge(hospital1, house4);
+        map1.addEdge(house2, house6);
+        map1.addEdge(hospital1, house7);
+        map1.addEdge(house5, house6);
+        map1.addEdge(house5, DC2);
+        map1.addEdge(house6, house7);
+        map1.addEdge(house7, house8);
+        map1.addEdge(house7, house9);
+        map1.addEdge(DC2, house8);
+        map1.addEdge(DC2, house13);
+        map1.addEdge(house9, house10);
+        map1.addEdge(house9, house13);
+        map1.addEdge(house13, house11);
+        map1.addEdge(house13, hospital2);
+        map1.addEdge(hospital2, house12);
         System.out.println(map1 + "\n"); 
         
-        System.out.println("Optimal path from 'A' to 'E' Expect: [A, G, H, I, E,] Got: " + map1.optimalPath("A", "E"));
-        System.out.println("Optimal path from 'A' to 'Z' Expect: null Got: " + map1.optimalPath("A", "Z"));
+        System.out.println("Optimal path from 'house1' to 'hospital1' Expect: [house1, house5, house6, house7, hospital1,] Got: " + map1.optimalPath(house1, hospital1));
+        //System.out.println("Optimal path from 'house1' to 'DC3' Expect: null Got: " + map1.optimalPath(house1, DC3));
     }
 }

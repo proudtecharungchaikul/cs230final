@@ -135,16 +135,16 @@ public class Map<T> implements Graph<T>
      * @param vertex2 the second vertex
      */
     public void addArc (T vertex1, T vertex2){
-       int index1 = vertices.indexOf(vertex1); //gives us the index of the linked list of vertex1
+        int index1 = vertices.indexOf(vertex1); //gives us the index of the linked list of vertex1
         int index2 = vertices.indexOf(vertex2);
         
         if (index1 == -1 || index2 == -1) {
             System.out.println("Invalid vertices");
             return; 
         }
-       UpdatedLinkedList<T> arcList = arcs.elementAt(index1); 
+        UpdatedLinkedList<T> arcList = arcs.elementAt(index1); 
        
-       arcList.insert(0, vertex2); 
+        arcList.insert(0, vertex2); 
        
     }
 
@@ -203,13 +203,16 @@ public class Map<T> implements Graph<T>
     public ArrayList<String> findEdges(){
        ArrayList<String> edges = new ArrayList<String>();
        for (int i = 0; i < arcs.size(); i++){
+           //for loop to go through all the arcs
            T vert1 = vertices.elementAt(i);
            for (int j = 0; j < arcs.elementAt(i).size(); j++){
                T vert2 = arcs.elementAt(i).get(j);
-               String orderedPair = "(" + vert1 + ", " + vert2 + ")";
-               String reverseOrderedPair = "(" + vert2 + ", " + vert1 + ")";
-               if (!edges.contains(reverseOrderedPair)){
-                   edges.add(orderedPair);
+               String orderedPair = "(" + vert1 + ", " + vert2 + ")"; //make the arc an ordered pair
+               String reverseOrderedPair = "(" + vert2 + ", " + vert1 + ")"; //make the other arc that would make the arc an edge
+               if (isArc(vert1, vert2) && isArc(vert2, vert1)){
+                   if (!edges.contains(orderedPair) && !edges.contains(reverseOrderedPair)){
+                       edges.add(orderedPair);
+                   }
                }
            }
        }
@@ -289,13 +292,14 @@ public class Map<T> implements Graph<T>
         
         System.out.println("\n" + "Is (A, B) an arc? Expect: true. Got: " + graph.isArc("A", "B"));
         System.out.println("Is (B, A) an arc? Expect: true. Got: " + graph.isArc("B", "A"));
-        System.out.println("Is (B, D) a an arc? Expect: false. Got: " + graph.isArc("B", "D"));
+        System.out.println("Is (B, D) an arc? Expect: false. Got: " + graph.isArc("B", "D"));
+        System.out.println(graph); 
         
+        System.out.println("\n" + "Adding arc (B, D)"); 
         graph.addArc("B", "D"); 
-        System.out.println("\n" + "Is (B, D) an arc? Expect: true. Got: " + graph.isArc("B", "D")); 
+        System.out.println("Is (B, D) an arc? Expect: true. Got: " + graph.isArc("B", "D")); 
         System.out.println("Is (B, D) an edge? Expect: false. Got: " + graph.isEdge("B", "D")); 
-        
-        //System.out.println(graph);
+        System.out.println(graph);
         
         System.out.println("\n" + "Removing vertex A.");
         graph.removeVertex("A");
