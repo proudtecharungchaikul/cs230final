@@ -21,8 +21,12 @@ public abstract class Location
         this.name = name; 
     }
 
-    public String toString(){
-        return this.name;
+    /**
+     * toString for Location
+     * 
+     * @return String representation of the location name
+     */public String toString(){
+        return this.name ;
     }
 
 }

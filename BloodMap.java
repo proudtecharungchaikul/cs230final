@@ -121,12 +121,12 @@ public class BloodMap extends Map<Location>
         ArrayList<Location> firstPath = new ArrayList<Location>(); //array of path to be put in queue
         firstPath.add(origin); //add source node to an initial stack
         q.enqueue(firstPath); 
-        visited[0] = true; // marks source node visited
+        visited[index1] = true; // marks source node visited
 
         while(!q.isEmpty()){ 
             ArrayList<Location> currentPath = q.dequeue(); //path we are iterating through
             Location currentNode = currentPath.elementAt(currentPath.size() - 1); //node we are iterating through (most recent node in stack)
-            if (currentNode instanceof DistributionCenter ){ //if our current node is a Distribution Center, return Distribution Center
+            if (currentNode instanceof DistributionCenter){ //if our current node is a Distribution Center, return Distribution Center
                 currentCloseness++;
                 if (currentCloseness == closeness){
                     return (DistributionCenter) currentNode; 
@@ -145,8 +145,7 @@ public class BloodMap extends Map<Location>
                 }
             }
         }
-        return null;
-
+        return null; 
     }
     
     /**
@@ -201,7 +200,7 @@ public class BloodMap extends Map<Location>
         String result;
        result = "Vertices in the graph: " + "\n";
        for (int i=0; i<vertices.size(); i++){
-            result += vertices.elementAt(i).toString();
+            result += vertices.elementAt(i).toString() + ", ";
        }
        result += "\n" + "Edges in the graph: " + "\n" + this.findEdges().toString();
        return result;
@@ -273,5 +272,10 @@ public class BloodMap extends Map<Location>
         
         System.out.println("Optimal path from 'house1' to 'hospital1' Expect: [house1, house5, house6, house7, hospital1,] Got: " + map1.optimalPath(house1, hospital1));
         //System.out.println("Optimal path from 'house1' to 'DC3' Expect: null Got: " + map1.optimalPath(house1, DC3));
+        
+    
+        System.out.println("Nearest Distribution center to 'hospital2'? Expect: DC2 Got: " + map1.nearestDC(hospital2, 1)); 
+        System.out.println("Second nearest Distribution center to 'hospital2'? Expect: DC1 Got: " + map1.nearestDC(hospital2, 2)); //still not working
+        
     }
 }

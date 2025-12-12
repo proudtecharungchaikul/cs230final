@@ -67,5 +67,4 @@ public class House extends Location
         }
         return false; 
     }
-
 }

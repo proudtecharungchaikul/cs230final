@@ -49,6 +49,11 @@ public class DistributionCenter extends Location
         this.bloodBank.put(type, currentAmount + amount);
     }
     
+    /**
+     * Returns the amount of a certain blood type in the bloodBank
+     * 
+     * @return int of the amount
+     */
     public int getAmount(String type){
         return this.bloodBank.get(type);
     }
