@@ -102,9 +102,9 @@ public class BloodMap extends Map<Location>
     /**
      * 
      */
-    public DistributionCenter nearestDC(Location origin){
-        int index1 = vertices.indexOf(origin);
-        
+    private DistributionCenter nearestDC(Location origin, int closeness){
+        int index1 = this.vertices.indexOf(origin);
+        int currentCloseness = 0;
         if (index1 == -1){
             System.out.println("Invalid origin");
             return null;
@@ -127,7 +127,10 @@ public class BloodMap extends Map<Location>
             ArrayList<Location> currentPath = q.dequeue(); //path we are iterating through
             Location currentNode = currentPath.elementAt(currentPath.size() - 1); //node we are iterating through (most recent node in stack)
             if (currentNode instanceof DistributionCenter ){ //if our current node is a Distribution Center, return Distribution Center
+                currentCloseness++;
+                if (currentCloseness == closeness){
                     return (DistributionCenter) currentNode; 
+                }
                 }
             UpdatedLinkedList<Location> neighbors = this.arcs.elementAt(this.vertices.indexOf(currentNode)); //linked list of neighbors of currentNode
             for (int j = 0; j < neighbors.size(); j++){ //iterates through each neighboring node of current node
@@ -152,15 +155,42 @@ public class BloodMap extends Map<Location>
      * @param destination - name of hospital to transport to 
      */
     public void transportBlood(String type, int amount, Hospital destination) {
+        int closeness = 1;
         //find nearest distribution center to destination
-        
+        DistributionCenter nearest = this.nearestDC(destination, closeness);
+        // if (nearest.getAmount(type) < amount){
+        //     int missingAmount = amount - nearest.getAmount(type);
+        //     System.out.println("Not enough blood. Transporting " + nearest.getAmount(type) + " to hospital");
+        //     nearest.removeBlood(type, nearest.getAmount(type)); // transports current amount
+        //     destination.addBlood(type, nearest.getAmount(type));
+        //     System.out.println("Looking at next closest distribution center...");
+        //     transportBlood(type, missingAmount, destination, closeness + 1);//fix the closeness param
+        // }
+
+        while (nearest.getAmount(type) < amount){
+            int missingAmount = amount - nearest.getAmount(type);
+            System.out.println("Not enough blood. Transporting " + nearest.getAmount(type) + " to hospital");
+            nearest.removeBlood(type, nearest.getAmount(type)); // transports current amount
+            destination.addBlood(type, nearest.getAmount(type));
+            System.out.println("Looking at next closest distribution center...");
+            amount = missingAmount;
+            closeness++;
+        }
+
+        nearest.removeBlood(type, amount);
+        System.out.println("Transporting " + amount + " to hospital.");
+        destination.addBlood(type, amount);
     }
     
     /**
      * 
      */
     public void donateBlood(String type, House house) {
-        
+        if(house.checkType(type)){
+            DistributionCenter nearest = this.nearestDC(house, 1);
+            nearest.addBlood(type, 1);
+        }
+        System.out.println("Wrong blood type. Input valid blood type");
     }
     
     /**

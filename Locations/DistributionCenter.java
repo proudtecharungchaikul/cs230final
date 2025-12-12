@@ -48,4 +48,8 @@ public class DistributionCenter extends Location
         int currentAmount = this.bloodBank.get(type);
         this.bloodBank.put(type, currentAmount + amount);
     }
+    
+    public int getAmount(String type){
+        return this.bloodBank.get(type);
+    }
 }
