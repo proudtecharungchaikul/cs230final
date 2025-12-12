@@ -31,7 +31,7 @@ public class BloodMap extends Map<Location>
         int index2 = vertices.indexOf(dest);
         
         if (index1 == -1 || index2 == -1){
-            System.out.println("Invalid locations");
+            System.out.println("At least one location is invalid");
             return null;
         }
         LinkedQueue<ArrayList<Location>> q = new LinkedQueue<ArrayList<Location>>(); //queue of paths to traverse through
@@ -102,7 +102,57 @@ public class BloodMap extends Map<Location>
     /**
      * 
      */
-    public void transportBlood(String type, Hospital destination) {
+    public DistributionCenter nearestDC(Location origin){
+        int index1 = vertices.indexOf(origin);
+        
+        if (index1 == -1){
+            System.out.println("Invalid origin");
+            return null;
+        }
+        
+        LinkedQueue<ArrayList<Location>> q = new LinkedQueue<ArrayList<Location>>(); //queue of paths to traverse through
+        boolean[] visited = new boolean[this.vertices.size()]; //mark nodes visited/notvisited
+        
+        //initialize visited to false
+        for (int i = 0; i < visited.length; i++){
+            visited[i] = false;
+        }
+        
+        ArrayList<Location> firstPath = new ArrayList<Location>(); //array of path to be put in queue
+        firstPath.add(origin); //add source node to an initial stack
+        q.enqueue(firstPath); 
+        visited[0] = true; // marks source node visited
+
+        while(!q.isEmpty()){ 
+            ArrayList<Location> currentPath = q.dequeue(); //path we are iterating through
+            Location currentNode = currentPath.elementAt(currentPath.size() - 1); //node we are iterating through (most recent node in stack)
+            if (currentNode instanceof DistributionCenter ){ //if our current node is a Distribution Center, return Distribution Center
+                    return (DistributionCenter) currentNode; 
+                }
+            UpdatedLinkedList<Location> neighbors = this.arcs.elementAt(this.vertices.indexOf(currentNode)); //linked list of neighbors of currentNode
+            for (int j = 0; j < neighbors.size(); j++){ //iterates through each neighboring node of current node
+                if (!visited[vertices.indexOf(neighbors.get(j))]){
+                    ArrayList<Location> newPath = new ArrayList<Location>();
+                    for (int k = 0; k < currentPath.size(); k++){
+                        newPath.add(currentPath.elementAt(k));
+                    }
+                    newPath.add(neighbors.get(j));
+                    q.enqueue(newPath);
+                    visited[j] = true;
+                }
+            }
+        }
+        return null;
+
+    }
+    
+    /**
+     * @param type - type of blood that needs to be transported
+     * @param amount - how many units of blood is needed
+     * @param destination - name of hospital to transport to 
+     */
+    public void transportBlood(String type, int amount, Hospital destination) {
+        //find nearest distribution center to destination
         
     }
     
