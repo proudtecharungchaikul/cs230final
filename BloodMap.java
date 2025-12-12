@@ -90,6 +90,7 @@ public class BloodMap<T> extends Map<T>
                     newMap.addArc(from, to);
                 }
             }
+            fileScan.close();
             return newMap;
         } catch (IOException e){
             System.out.println("IO Exception found"); 
