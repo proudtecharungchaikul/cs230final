@@ -26,7 +26,7 @@ public class BloodMap extends Map<Location>
      * @param dest
      * @return shortest path btwn source and dest in a array list
      */
-    public ArrayList<Location> optimalPath(Location source, Location dest){
+    private ArrayList<Location> optimalPath(Location source, Location dest){
         int index1 = vertices.indexOf(source);
         int index2 = vertices.indexOf(dest);
         
@@ -134,14 +134,15 @@ public class BloodMap extends Map<Location>
                 }
             UpdatedLinkedList<Location> neighbors = this.arcs.elementAt(this.vertices.indexOf(currentNode)); //linked list of neighbors of currentNode
             for (int j = 0; j < neighbors.size(); j++){ //iterates through each neighboring node of current node
-                if (!visited[vertices.indexOf(neighbors.get(j))]){
+                int neighborIndex = this.vertices.indexOf(neighbors.get(j));
+                if (!visited[neighborIndex]){
                     ArrayList<Location> newPath = new ArrayList<Location>();
                     for (int k = 0; k < currentPath.size(); k++){
                         newPath.add(currentPath.elementAt(k));
                     }
                     newPath.add(neighbors.get(j));
                     q.enqueue(newPath);
-                    visited[j] = true;
+                    visited[neighborIndex] = true;
                 }
             }
         }
