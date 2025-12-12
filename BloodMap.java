@@ -10,7 +10,7 @@ import Locations.*;
  * @author Cindy and Proud
  * @version 7 Dec 2025
  */
-public class BloodMap<T> extends Map<T>
+public class BloodMap extends Map<Location>
 {
     /**
      * Constructor for objects of class BloodMap
@@ -26,7 +26,7 @@ public class BloodMap<T> extends Map<T>
      * @param dest
      * @return shortest path btwn source and dest in a array list
      */
-    public ArrayList<T> optimalPath(T source, T dest){
+    public ArrayList<Location> optimalPath(Location source, Location dest){
         int index1 = vertices.indexOf(source);
         int index2 = vertices.indexOf(dest);
         
@@ -34,27 +34,27 @@ public class BloodMap<T> extends Map<T>
             System.out.println("Invalid locations");
             return null;
         }
-        LinkedQueue<ArrayList<T>> q = new LinkedQueue<ArrayList<T>>(); //queue of paths to traverse through
+        LinkedQueue<ArrayList<Location>> q = new LinkedQueue<ArrayList<Location>>(); //queue of paths to traverse through
         boolean[] visited = new boolean[this.vertices.size()]; //mark nodes visited/notvisited
         //initialize visited to false
         for (int i = 0; i < visited.length; i++){
             visited[i] = false;
         }
-        ArrayList<T> firstPath = new ArrayList<T>(); //array of path to be put in queue
+        ArrayList<Location> firstPath = new ArrayList<Location>(); //array of path to be put in queue
         firstPath.add(source); //add source node to an initial stack
         q.enqueue(firstPath); 
         visited[0] = true; // marks source node visited
 
         while(!q.isEmpty()){ 
-            ArrayList<T> currentPath = q.dequeue(); //path we are iterating through
-            T currentNode = currentPath.elementAt(currentPath.size() - 1); //node we are iterating through (most recent node in stack)
+            ArrayList<Location> currentPath = q.dequeue(); //path we are iterating through
+            Location currentNode = currentPath.elementAt(currentPath.size() - 1); //node we are iterating through (most recent node in stack)
             if (dest.equals(currentNode)){ //if our current node is the destination, return path
                     return currentPath;
                 }
-            UpdatedLinkedList<T> neighbors = this.arcs.elementAt(this.vertices.indexOf(currentNode)); //linked list of neighbors of currentNode
+            UpdatedLinkedList<Location> neighbors = this.arcs.elementAt(this.vertices.indexOf(currentNode)); //linked list of neighbors of currentNode
             for (int j = 0; j < neighbors.size(); j++){ //iterates through each neighboring node of current node
                 if (!visited[vertices.indexOf(neighbors.get(j))]){
-                    ArrayList<T> newPath = new ArrayList<T>();
+                    ArrayList<Location> newPath = new ArrayList<Location>();
                     for (int k = 0; k < currentPath.size(); k++){
                         newPath.add(currentPath.elementAt(k));
                     }
@@ -98,6 +98,22 @@ public class BloodMap<T> extends Map<T>
             return null;//????
         }
     }
+    
+    /**
+     * 
+     */
+    public void transportBlood() {
+        
+    }
+    
+    /**
+     * 
+     */
+    public void donateBlood() {
+        
+    }
+    
+    
     
     /**
      * Main method for testing
