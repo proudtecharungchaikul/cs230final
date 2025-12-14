@@ -250,19 +250,19 @@ public class BloodMap extends Map<Location>
     public static void main(String[] args){
         BloodMap map1 = new BloodMap();
         
-        House house1 = new House("house1", "A"); 
-        House house2 = new House("house2", "B"); 
-        House house3 = new House("house3", "A", "B"); 
-        House house4 = new House("house4", "A", "O"); 
-        House house5 = new House("house5", "A", "B", "O"); 
-        House house6 = new House("house6", "O"); 
-        House house7 = new House("house7", "B", "O"); 
-        House house8 = new House("house8", "O", "AB"); 
-        House house9 = new House("house9", "B", "O", "AB"); 
-        House house10 = new House("house10", "B", "AB"); 
-        House house11 = new House("house11", "A", "B", "O", "AB"); 
-        House house12 = new House("house12", "AB"); 
-        House house13 = new House("house13", "A", "AB"); 
+        House house1 = new House("house1"); 
+        House house2 = new House("house2"); 
+        House house3 = new House("house3"); 
+        House house4 = new House("house4"); 
+        House house5 = new House("house5"); 
+        House house6 = new House("house6"); 
+        House house7 = new House("house7"); 
+        House house8 = new House("house8"); 
+        House house9 = new House("house9"); 
+        House house10 = new House("house10"); 
+        House house11 = new House("house11"); 
+        House house12 = new House("house12"); 
+        House house13 = new House("house13"); 
         Hospital hospital1 = new Hospital("hospital1");
         Hospital hospital2 = new Hospital("hospital2");
         DistributionCenter DC1 = new DistributionCenter("DC1");

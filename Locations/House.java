@@ -9,71 +9,41 @@ import Locations.exceptions.*;
 public class House extends Location
 {
     // instance variables 
-    String[] bloodTypes; 
+    String[] bloodTypes;
+    int count = 0; //num of blood types
 
     /**
      * Constructor for objects of class House with 1 bloodType
      */
-    public House(String name, String type1) throws InvalidTypeException 
+    public House(String name)
     {
         // initialise instance variables
         super(name); 
-        if (!type1.equals("A") && !type1.equals("B") && !type1.equals("O") && !type1.equals("AB")){
-            //if input a bloodtype that is not valid, throw exception
-            throw new InvalidTypeException("Blood types are case-sensitive and must be A, B, O, or AB");
-        }
-        this.bloodTypes = new String[] {type1}; 
+        this.bloodTypes = new String[4]; 
         
     }
     
     /**
-     * Constructor for objects of class House with 2 bloodTypes
+     * adds new blood type to house
+     * @param type of blood
      */
-    public House(String name, String type1, String type2) throws InvalidTypeException
-    {
-        // initialise instance variables
-        super(name); 
-        boolean type1invalid = !type1.equals("A") && !type1.equals("B") && !type1.equals("O") && !type1.equals("AB");
-        boolean type2invalid = !type2.equals("A") && !type2.equals("B") && !type2.equals("O") && !type2.equals("AB");
-        if (type1invalid || type2invalid){
+    public void addBloodType(String type) throws InvalidTypeException{
+        boolean bloodTypesContainsType;
+        if(type != "A" || type!="B" || type!="O" || type!="AB"){
+            for (int i = 0; i < bloodTypes.length; i++){
+                if (type == bloodTypes[i]){
+                    bloodTypesContainsType = true;
+                } else {
+                    return;
+                }
+            } 
+            bloodTypes[count] = type;
+        } else {
             throw new InvalidTypeException("Blood types are case-sensitive and must be A, B, O, or AB");
         }
-        this.bloodTypes = new String[] {type1, type2}; 
+        
     }
     
-    /**
-     * Constructor for objects of class House with 3 bloodTypes
-     */
-    public House(String name, String type1, String type2, String type3) throws InvalidTypeException 
-    {
-        // initialise instance variables
-        super(name); 
-        boolean type1invalid = !type1.equals("A") && !type1.equals("B") && !type1.equals("O") && !type1.equals("AB");
-        boolean type2invalid = !type2.equals("A") && !type2.equals("B") && !type2.equals("O") && !type2.equals("AB");
-        boolean type3invalid = !type3.equals("A") && !type3.equals("B") && !type3.equals("O") && !type3.equals("AB");
-        if (type1invalid || type2invalid || type3invalid){
-            throw new InvalidTypeException("Blood types are case-sensitive and must be A, B, O, or AB");
-        }
-        this.bloodTypes = new String[] {type1, type2, type3}; 
-    }
-    
-    /**
-     * Constructor for objects of class House with 4 bloodTypes
-     */
-    public House(String name, String type1, String type2, String type3, String type4) throws InvalidTypeException
-    {
-        // initialise instance variables
-        super(name); 
-        boolean type1invalid = !type1.equals("A") && !type1.equals("B") && !type1.equals("O") && !type1.equals("AB");
-        boolean type2invalid = !type2.equals("A") && !type2.equals("B") && !type2.equals("O") && !type2.equals("AB");
-        boolean type3invalid = !type3.equals("A") && !type3.equals("B") && !type3.equals("O") && !type3.equals("AB");
-        boolean type4invalid = !type4.equals("A") && !type4.equals("B") && !type4.equals("O") && !type4.equals("AB");
-        if (type1invalid || type2invalid || type3invalid || type4invalid){
-            throw new InvalidTypeException("Blood types are case-sensitive and must be A, B, O, or AB");
-        }
-        this.bloodTypes = new String[] {type1, type2, type3, type4}; 
-    }
-
     /**
      * Makes sure that the type of blood exists in the house
      * 
@@ -114,30 +84,8 @@ public class House extends Location
     public static void main(String[] args){
         //test constructor 1
         System.out.println("Creating a new House H1 with blood type A");
-        House H1 = new House("H1", "A");
+        House H1 = new House("H1");
         System.out.println(H1);
-        //testing invalid types
-        System.out.println("Creating a new House H10 with blood type X. Expect: InvalidTypeException");
-        try {
-            House H10 = new House("H1", "X");
-        } catch (InvalidTypeException e){
-            System.out.println(e);
-        }
-        
-        //test constructor 2
-        System.out.println("Creating a new House H2 with blood types A, B");
-        House H2 = new House("H2", "A", "B");
-        System.out.println(H2);
-        
-        //test constructor 3
-        System.out.println("Creating a new House H3 with blood types A, B, O");
-        House H3 = new House("H3", "A", "B", "O");
-        System.out.println(H3);
-        
-        //test constructor 4
-        System.out.println("Creating a new House H4 with blood types A, B, O, AB");
-        House H4 = new House("H4", "A", "B", "O", "AB");
-        System.out.println(H4);
         
         //test checkType
         System.out.println("Testing H1.checkType('A').  Expect: true.   Got: " + H1.checkType("A"));
