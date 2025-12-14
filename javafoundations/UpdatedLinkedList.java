@@ -47,4 +47,33 @@ public class UpdatedLinkedList<T> extends LinkedList<T>
         }
         return -1; 
     }
+    
+    /**
+     * 
+     */
+    public static void main(String[] args){
+        //New UpdatedLinkedList
+        System.out.println("Creating new UpdatedLinkedList ULL");
+        UpdatedLinkedList ULL = new UpdatedLinkedList();
+        
+        //Adding elems
+        System.out.println("Adding elems C, B, A to ULL");
+        ULL.insert(0, "A");
+        ULL.insert (0, "B");
+        ULL.insert(0, "C");
+        
+        //test contains
+        //true
+        System.out.println("Testing ULL.contains('A'),  Expect: true.   Got: " + ULL.contains("A"));
+        //false
+        System.out.println("Testing ULL.contains('Y'),  Expect: false.   Got: " + ULL.contains("Y"));
+        
+        //test indexOf
+        //not in list
+        System.out.println("Testing ULL.indexOf('Z'),  Expect: -1.   Got: " + ULL.indexOf("Z"));
+        //in list
+        System.out.println("Testing ULL.indexOf('C'),  Expect: 0.   Got: " + ULL.indexOf("C"));
+        System.out.println("Testing ULL.indexOf('A'),  Expect: 2.   Got: " + ULL.indexOf("A"));
+        
+    }
 }
