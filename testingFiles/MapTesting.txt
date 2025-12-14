@@ -1,0 +1,56 @@
+---***--- Testing Map ---***---
+Testing isEmpty(). Expect: true | Got: true
+Testing getNumVertices(). Expect: 0: | Got: 0
+Testing getNumArcs() Expect: 0 | Got: 0
+
+Vertices in the graph: 
+[ ]
+Edges in the graph: 
+[ ]
+
+Testing addVertex() | Adding vertices A, B, C, D, D
+Vertex already exists
+Vertices in the graph: 
+[ A, B, C, D, ]
+Edges in the graph: 
+[ ]
+
+Testing addEdges() | Adding edges (A, B), (A, C), (A, D), (B, C), (C, D)
+Vertices in the graph: 
+[ A, B, C, D, ]
+Edges in the graph: 
+[ (A, D), (A, C), (A, B), (B, C), (C, D), ]
+
+--- Testing isArc() ---
+Is (A, B) an arc? Expect: true | Got: true
+Is (B, A) an arc? Expect: true | Got: true
+Is (B, D) an arc? Expect: false | Got: false
+Vertices in the graph: 
+[ A, B, C, D, ]
+Edges in the graph: 
+[ (A, D), (A, C), (A, B), (B, C), (C, D), ]
+
+Testing isEdge() | Is (B, D) an edge? Expect: false | Got: false
+
+Testing addArc() | Adding arc (B, D)
+Is (B, D) an arc? Expect: true | Got: true
+Is (B, D) an edge? Expect: false | Got: false
+
+Testing removeArc() | Removing arc (B, D)
+Is (B, D) an arc? Expect: false | Got: false
+Vertices in the graph: 
+[ A, B, C, D, ]
+Edges in the graph: 
+[ (A, D), (A, C), (A, B), (B, C), (C, D), ]
+
+Testing removeVertex() | Removing vertex A.
+Vertices in the graph: 
+[ B, C, D, ]
+Edges in the graph: 
+[ (B, C), (C, D), ]
+
+Testing removeEdge() | Removing edge from B to C
+Vertices in the graph: 
+[ B, C, D, ]
+Edges in the graph: 
+[ (C, D), ]

@@ -1,0 +1,7 @@
+Creating new UpdatedLinkedList ULL
+Adding elems C, B, A to ULL
+Testing ULL.contains('A'),  Expect: true.   Got: true
+Testing ULL.contains('Y'),  Expect: false.   Got: false
+Testing ULL.indexOf('Z'),  Expect: -1.   Got: -1
+Testing ULL.indexOf('C'),  Expect: 0.   Got: 0
+Testing ULL.indexOf('A'),  Expect: 2.   Got: 2

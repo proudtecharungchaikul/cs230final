@@ -82,7 +82,10 @@ public class ArrayList<T>
      * 
      */
     public T elementAt(int index) throws ArrayIndexOutOfBoundsException{
-        if (index > count) {
+        if (index < 0) {
+            throw new ArrayIndexOutOfBoundsException("index out of bounds");
+        }
+        if (index >= count) {
             throw new ArrayIndexOutOfBoundsException("index out of bounds");
         }
         return list[index]; 
@@ -94,14 +97,14 @@ public class ArrayList<T>
      */
     public T remove(int index) throws RuntimeException{
         T[] temp = (T[]) new Object[list.length];
-        if(index > count || index < 0) {
+        if(index >= count || index < 0) {
             throw new RuntimeException("index out of bounds");
         }
         for (int i = 0; i < index; i++) {
             temp[i] = this.list[i];
         }
         for (int i = index + 1; i < count; i++) {
-            temp[i-index-1] = this.list[i];
+            temp[i-1] = this.list[i];
         }
         T toRemove = list[index];
         this.list = temp;
@@ -130,8 +133,10 @@ public class ArrayList<T>
     public static void main(String[] args) {
         ArrayList<String> list1 = new ArrayList<String>();
         
-        System.out.println("Testing size() : " + list1.size() + " | expect: 0"); 
-        System.out.println("Testing isEmpty() : " + list1.isEmpty() + " | expect: true" + "\n"); 
+        System.out.println("---***--- Testing ArrayList ---***---" + "\n"); 
+        
+        System.out.println("Testing size(). Expect: 0 | Got: " + list1.size()); 
+        System.out.println("Testing isEmpty(). Expect: true | Got: " + list1.isEmpty() + "\n"); 
         
         System.out.println("Adding elements A-K");
         list1.add("A");
@@ -145,25 +150,56 @@ public class ArrayList<T>
         list1.add("I");
         list1.add("J");
         list1.add("K");
+        System.out.println("\n" + list1);
+        
+        System.out.println("Testing size(). Expect: 11 | Got: " + list1.size()); 
+        System.out.println("Testing isEmpty(). Expect: false | Got: " + list1.isEmpty() + "\n"); 
+        
+        System.out.println("Testing contains('E'). Expect: true | Got: " + list1.contains("E"));
+        System.out.println("Testing contains('Z'). Expect: false | Got: " + list1.contains("Z") + "\n");
+        
+        System.out.println("Testing indexOf('E'). Expect: 4 | Got: " + list1.indexOf("E"));
+        System.out.println("Testing indexOf('Z'). Expect: -1 | Got: " + list1.indexOf("Z") + "\n");
+        
+        System.out.println("Testing elementAt(8). Expect: I | Got: " + list1.elementAt(8));
+        try {
+            System.out.println("Testing elementAt(15). Expect: java.lang.ArrayIndexOutOfBoundsException: index out of bounds | Got: " + list1.elementAt(15));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Testing elementAt(15). Expect: java.lang.ArrayIndexOutOfBoundsException: index out of bounds | Got: " + e); 
+        }
+        try {
+            System.out.println("Testing elementAt(-1). Expect: java.lang.ArrayIndexOutOfBoundsException: index out of bounds | Got: " + list1.elementAt(-1));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Testing elementAt(-1). Expect: java.lang.ArrayIndexOutOfBoundsException: index out of bounds | Got: " + e); 
+        }
+        
+        System.out.println(); 
+        
+        System.out.println("Testing remove(2). Expect: 'C' | Got: " + list1.remove(2));
+        try {
+            System.out.println("Testing remove(10). Expect: java.lang.RuntimeException: index out of bounds | Got: " + list1.remove(10));
+        } catch (RuntimeException e) {
+            System.out.println("Testing remove(10). Expect: java.lang.RuntimeException: index out of bounds | Got: " + e); 
+        }
+        try {
+            System.out.println("Testing remove(-3). Expect: java.lang.RuntimeException: index out of bounds | Got: " + list1.remove(-3));
+        } catch (RuntimeException e) {
+            System.out.println("Testing remove(-3). Expect: java.lang.RuntimeException: index out of bounds | Got: " + e); 
+        }
+        
+        System.out.println(); 
+        
+        System.out.println(list1 + "\n");
+        
+        System.out.println("Testing remove('F') : " + list1.remove("F") + " | expect: 'F'");
+        try {
+            System.out.println("Testing remove('Z'). Expect: java.lang.RuntimeException: index out of bounds | Got: " + list1.remove("Z"));
+        } catch (RuntimeException e) {
+            System.out.println("Testing remove('Z'). Expect: java.lang.RuntimeException: index out of bounds | Got: " + e); 
+        }
+        
+        System.out.println(); 
+        
         System.out.println(list1);
-        
-        System.out.println("Testing contains('E') : " + list1.contains("E") + " | expect: true");
-        System.out.println("Testing contains('Z') : " + list1.contains("Z") + " | expect: false" + "\n");
-        
-        System.out.println("Testing indexOf('E') : " + list1.indexOf("E") + " | expect: 4");
-        System.out.println("Testing indexOf('Z') : " + list1.indexOf("Z") + " | expect: -1" + "\n");
-        
-        System.out.println("Testing remove(0) : " + list1.remove(0) + " | expect: 'A'" + "\n");
-        //System.out.println("Testing remove(15) : " + list1.remove(15) + " | expect: ");
-        //System.out.println("Testing remove(25) : " + list1.remove(25) + " | expect: ");
-        
-        System.out.println(list1);
-        
-        System.out.println("Testing remove('B') : " + list1.remove("B") + " | expect: 'B'" + "\n");
-        //System.out.println("Testing remove('Z') : " + list1.remove("Z") + " | expect: exception");
-        
-        System.out.println(list1);
-        
-        
     }
 }

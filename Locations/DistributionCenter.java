@@ -37,8 +37,9 @@ public class DistributionCenter extends Location
         try{
             int currentAmount = this.bloodBank.get(type);
             if(currentAmount - amount < 0){ 
+                // if removing more than amount available
                 throw new EmptyCollectionException("BloodBank for type " + type + " has " + amount + " units.");
-            } // if removing more than amount available
+            } 
             this.bloodBank.put(type, currentAmount - amount); //subtracts amount from value for specified key
         } catch (NullPointerException e){
             throw new ElementNotFoundException("This is not a valid blood type. Bloodtypes: A, B, O, AB are case sensitive.");
