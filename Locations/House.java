@@ -14,11 +14,12 @@ public class House extends Location
     /**
      * Constructor for objects of class House with 1 bloodType
      */
-    public House(String name, String type1)
+    public House(String name, String type1) throws InvalidTypeException 
     {
         // initialise instance variables
         super(name); 
         if (!type1.equals("A") && !type1.equals("B") && !type1.equals("O") && !type1.equals("AB")){
+            //if input a bloodtype that is not valid, throw exception
             throw new InvalidTypeException("Blood types are case-sensitive and must be A, B, O, or AB");
         }
         this.bloodTypes = new String[] {type1}; 
@@ -28,7 +29,7 @@ public class House extends Location
     /**
      * Constructor for objects of class House with 2 bloodTypes
      */
-    public House(String name, String type1, String type2)
+    public House(String name, String type1, String type2) throws InvalidTypeException
     {
         // initialise instance variables
         super(name); 
@@ -43,7 +44,7 @@ public class House extends Location
     /**
      * Constructor for objects of class House with 3 bloodTypes
      */
-    public House(String name, String type1, String type2, String type3)
+    public House(String name, String type1, String type2, String type3) throws InvalidTypeException 
     {
         // initialise instance variables
         super(name); 
@@ -59,7 +60,7 @@ public class House extends Location
     /**
      * Constructor for objects of class House with 4 bloodTypes
      */
-    public House(String name, String type1, String type2, String type3, String type4)
+    public House(String name, String type1, String type2, String type3, String type4) throws InvalidTypeException
     {
         // initialise instance variables
         super(name); 
@@ -85,7 +86,9 @@ public class House extends Location
             throw new InvalidTypeException("Blood types are case-sensitive and must be A, B, O, or AB");
         }
         for(int i = 0; i < bloodTypes.length; i++){
+            //for each blood type listed in the list
             if (type.equals(bloodTypes[i])) {
+                //if the type of the blood that is needed exists, return true
                 return true; 
             }
         }

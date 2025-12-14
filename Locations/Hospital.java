@@ -32,13 +32,14 @@ public class Hospital extends Location
      * @param type - type of blood to remove
      * @param amount - amount of blood remove
      */
-    public void removeBlood(String type, int amount)
+    public void removeBlood(String type, int amount) throws EmptyCollectionException, NullPointerException 
     {
         try{
             int currentAmount = this.inventory.get(type);
             if(currentAmount - amount < 0){ 
+                // if removing more than amount available
                 throw new EmptyCollectionException("BloodBank for type " + type + " has " + amount + " units.");
-            } // if removing more than amount available
+            } 
             this.inventory.put(type, currentAmount - amount); //subtracts amount from value for specified key
         } catch (NullPointerException e){
             throw new ElementNotFoundException("This is not a valid blood type. Bloodtypes: A, B, O, AB are case sensitive.");
@@ -51,7 +52,7 @@ public class Hospital extends Location
      * @param type - type of blood to add
      * @param amount - amount of blood to add
      */
-    public void addBlood(String type, int amount){
+    public void addBlood(String type, int amount) throws ElementNotFoundException{
         try{
             int currentAmount = this.inventory.get(type);
             this.inventory.put(type, currentAmount + amount); //adds amount to value for specified key
