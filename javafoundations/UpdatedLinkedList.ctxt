@@ -12,5 +12,5 @@ comment3.target=int\ indexOf(java.lang.Object)
 comment3.text=\n\ \n
 comment4.params=args
 comment4.target=void\ main(java.lang.String[])
-comment4.text=\n\ \n
+comment4.text=\n\ main\ method\ for\ testing\n
 numComments=5

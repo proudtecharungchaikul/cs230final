@@ -3,6 +3,8 @@ import java.util.Scanner;
 import javafoundations.*;
 import java.io.File;
 import Locations.*;
+import javafoundations.exceptions.*;
+import java.util.Hashtable;
 
 /**
  * BloodMap is a map that calculates the shortest distance from any Hospital and Distribution center of blood.
@@ -69,40 +71,71 @@ public class BloodMap extends Map<Location>
     }
     
     /**
-     * First step is to read from a given file
-     * We are thinking about the SaveTGF method in Map
-     * Turn it from the file to a graph that we can use
+     * finds and returns the optimal path between an origin hospital and a distribution center destination
+     * @param source    origin hospital 
+     * @param dest      distribution center destination
      */
-    public Map<String> readTGF(String fileName) throws IOException{
+    public ArrayList<Location> optimalDCpath(Hospital source, DistributionCenter dest){
+        return optimalPath(source, dest);
+    }
+    
+    /**
+     * reads a tgf file and returns a Map object
+     * @param fileName is the name of the tgf file
+     * @return a bloodmap
+     */
+    public BloodMap readTGF(String fileName) throws IOException {
         try{
-            Map<String> newMap = new Map<String>(); 
+            BloodMap newMap = new BloodMap(); 
             Scanner fileScan = new Scanner (new File(fileName)); 
             boolean readingNodes = true;
+            Hashtable<String, Location> nodes = new Hashtable<String, Location>();
             while (fileScan.hasNextLine()){
                 String line = fileScan.nextLine();
                 if (line.equals("#")){
                     readingNodes = false;
                 } else if (readingNodes == true){
-                    newMap.addVertex(line);
+                    if(line.contains("Distribution Center")){
+                        DistributionCenter newDC = new DistributionCenter(line);
+                        newMap.addVertex(newDC);
+                        nodes.put(line, newDC);
+                    } else if (line.contains("Hospital")) {
+                        Hospital newHosp = new Hospital(line);
+                        newMap.addVertex(newHosp);
+                        nodes.put(line, newHosp);
+                    } else if (line.contains("House")){
+                        House newHouse = new House(line);
+                        newMap.addVertex(newHouse);
+                        nodes.put(line, newHouse);
+                    } else {
+                        System.out.println(line + " does not have a specified location type.");
+                    }
                 } else {
                     String[] edgeParts = line.split(" ");
                     String from = edgeParts[0];
                     String to = edgeParts[1];
-                    newMap.addArc(from, to);
+                    Location fromNode = nodes.get(from);
+                    Location toNode = nodes.get(to);
+                    
+                    newMap.addArc(fromNode, toNode);
                 }
             }
             fileScan.close();
             return newMap;
         } catch (IOException e){
-            System.out.println("IO Exception found"); 
-            return null;//????
+            System.out.println("IO Exception: File not found"); 
+            return null;
         }
     }
     
     /**
+     * Finds the nearest (or second/third/etc. nearest) distribution center from origin node
      * 
+     * @param origin    where the algorithm starts looking from
+     * @param closeness defines the target distribution center in terms of relative distance from origin node
+     * @return target distribution center
      */
-    private DistributionCenter nearestDC(Location origin, int closeness){
+    private DistributionCenter nearestDC(Location origin, int closeness) throws ElementNotFoundException{
         int index1 = this.vertices.indexOf(origin);
         int currentCloseness = 0;
         if (index1 == -1){
@@ -127,29 +160,32 @@ public class BloodMap extends Map<Location>
             ArrayList<Location> currentPath = q.dequeue(); //path we are iterating through
             Location currentNode = currentPath.elementAt(currentPath.size() - 1); //node we are iterating through (most recent node in stack)
             if (currentNode instanceof DistributionCenter){ //if our current node is a Distribution Center, return Distribution Center
-                currentCloseness++;
+                currentCloseness++; // add closeness counter
                 if (currentCloseness == closeness){
                     return (DistributionCenter) currentNode; 
-                }
+                } //return if target closeness is reached
                 }
             UpdatedLinkedList<Location> neighbors = this.arcs.elementAt(this.vertices.indexOf(currentNode)); //linked list of neighbors of currentNode
             for (int j = 0; j < neighbors.size(); j++){ //iterates through each neighboring node of current node
-                int neighborIndex = this.vertices.indexOf(neighbors.get(j));
-                if (!visited[neighborIndex]){
-                    ArrayList<Location> newPath = new ArrayList<Location>();
+                int neighborIndex = this.vertices.indexOf(neighbors.get(j)); //finds index of neighbor
+                if (!visited[neighborIndex]){ 
+                    //if neighbor hasnt been visited yet
+                    ArrayList<Location> newPath = new ArrayList<Location>(); //define a new path for neighbor elem
                     for (int k = 0; k < currentPath.size(); k++){
-                        newPath.add(currentPath.elementAt(k));
+                        newPath.add(currentPath.elementAt(k)); //copy path from current to new
                     }
-                    newPath.add(neighbors.get(j));
+                    newPath.add(neighbors.get(j));// add current elem to the path
                     q.enqueue(newPath);
-                    visited[neighborIndex] = true;
+                    visited[neighborIndex] = true; //set current elem as visited
                 }
             }
         }
-        return null; 
+        throw new ElementNotFoundException("Distribution center " + origin + " not found.");
     }
     
     /**
+     * transports specified amount and type of blood from the specified hospital to the nearest destination
+     * 
      * @param type - type of blood that needs to be transported
      * @param amount - how many units of blood is needed
      * @param destination - name of hospital to transport to 
@@ -157,16 +193,14 @@ public class BloodMap extends Map<Location>
     public void transportBlood(String type, int amount, Hospital destination) {
         int closeness = 1;
         //find nearest distribution center to destination
-        DistributionCenter nearest = this.nearestDC(destination, closeness);
-        // if (nearest.getAmount(type) < amount){
-        //     int missingAmount = amount - nearest.getAmount(type);
-        //     System.out.println("Not enough blood. Transporting " + nearest.getAmount(type) + " to hospital");
-        //     nearest.removeBlood(type, nearest.getAmount(type)); // transports current amount
-        //     destination.addBlood(type, nearest.getAmount(type));
-        //     System.out.println("Looking at next closest distribution center...");
-        //     transportBlood(type, missingAmount, destination, closeness + 1);//fix the closeness param
-        // }
-
+        DistributionCenter nearest;
+        try {
+            nearest = this.nearestDC(destination, closeness);
+        } catch (ElementNotFoundException e){
+            System.out.println("There is no distribution center in this map.");
+            return;
+        }
+        
         while (nearest.getAmount(type) < amount){
             int missingAmount = amount - nearest.getAmount(type);
             System.out.println("Not enough blood. Transporting " + nearest.getAmount(type) + " to hospital");
@@ -183,7 +217,10 @@ public class BloodMap extends Map<Location>
     }
     
     /**
+     * donates blood of a specified type from a house to a distribution center.
      * 
+     * @param type of blood donated
+     * @param house that has person who is donating blood
      */
     public void donateBlood(String type, House house) {
         if(house.checkType(type)){
@@ -195,7 +232,7 @@ public class BloodMap extends Map<Location>
     
     /**
      * 
-     * @param args
+     * @return a string representation of a BloodMap
      */
     public String toString(){
         String result;

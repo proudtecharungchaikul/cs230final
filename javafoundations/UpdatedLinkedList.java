@@ -49,7 +49,7 @@ public class UpdatedLinkedList<T> extends LinkedList<T>
     }
     
     /**
-     * 
+     * main method for testing
      */
     public static void main(String[] args){
         //New UpdatedLinkedList
