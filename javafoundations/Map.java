@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.File;
 
-
 /**
  * Write a description of class Map here.
  *
@@ -269,12 +268,13 @@ public class Map<T> implements Graph<T>
     public static void main(String[] args){
         Map<String> graph = new Map<String>();
         
-        System.out.println("The graph is empty. Expect: true. Got: " + graph.isEmpty());
-        System.out.println("The graph has 0 vertices. Expect: 0. Got: " + graph.getNumVertices());
-        System.out.println("The graph has 0 arcs. Expect: 0. Got: " + graph.getNumArcs() + "\n");
+        System.out.println("---***--- Testing Map ---***---"); 
+        System.out.println("Testing isEmpty(). Expect: true | Got: " + graph.isEmpty());
+        System.out.println("Testing getNumVertices(). Expect: 0: | Got: " + graph.getNumVertices());
+        System.out.println("Testing getNumArcs() Expect: 0 | Got: " + graph.getNumArcs() + "\n");
         System.out.println(graph);
         
-        System.out.println("\n" + "Adding vertices A, B, C, D, D");
+        System.out.println("\n" + "Testing addVertex() | Adding vertices A, B, C, D, D");
         graph.addVertex("A");
         graph.addVertex("B");
         graph.addVertex("C");
@@ -282,7 +282,7 @@ public class Map<T> implements Graph<T>
         graph.addVertex("D"); 
         System.out.println(graph);
         
-        System.out.println("\n" + "Adding edges (A, B), (A, C), (A, D), (B, C), (C, D)");
+        System.out.println("\n" + "Testing addEdges() | Adding edges (A, B), (A, C), (A, D), (B, C), (C, D)");
         graph.addEdge("A", "B");
         graph.addEdge("A", "C");
         graph.addEdge("A", "D");
@@ -290,23 +290,32 @@ public class Map<T> implements Graph<T>
         graph.addEdge("C", "D");
         System.out.println(graph);
         
-        System.out.println("\n" + "Is (A, B) an arc? Expect: true. Got: " + graph.isArc("A", "B"));
-        System.out.println("Is (B, A) an arc? Expect: true. Got: " + graph.isArc("B", "A"));
-        System.out.println("Is (B, D) an arc? Expect: false. Got: " + graph.isArc("B", "D"));
+        System.out.println("\n" + "--- Testing isArc() ---"); 
+        System.out.println("Is (A, B) an arc? Expect: true | Got: " + graph.isArc("A", "B"));
+        System.out.println("Is (B, A) an arc? Expect: true | Got: " + graph.isArc("B", "A"));
+        System.out.println("Is (B, D) an arc? Expect: false | Got: " + graph.isArc("B", "D"));
         System.out.println(graph); 
         
-        System.out.println("\n" + "Adding arc (B, D)"); 
+        System.out.println("\n" + "Testing isEdge() | Is (B, D) an edge? Expect: false | Got: " + graph.isEdge("B", "D")); 
+        
+        System.out.println("\n" + "Testing addArc() | Adding arc (B, D)"); 
         graph.addArc("B", "D"); 
-        System.out.println("Is (B, D) an arc? Expect: true. Got: " + graph.isArc("B", "D")); 
-        System.out.println("Is (B, D) an edge? Expect: false. Got: " + graph.isEdge("B", "D")); 
+        System.out.println("Is (B, D) an arc? Expect: true | Got: " + graph.isArc("B", "D")); 
+        System.out.println("Is (B, D) an edge? Expect: false | Got: " + graph.isEdge("B", "D") + "\n"); 
+        
+        System.out.println("Testing removeArc() | Removing arc (B, D)"); 
+        graph.removeArc("B", "D");
+        System.out.println("Is (B, D) an arc? Expect: false | Got: " + graph.isArc("B", "D")); 
         System.out.println(graph);
         
-        System.out.println("\n" + "Removing vertex A.");
+        System.out.println("\n" + "Testing removeVertex() | Removing vertex A.");
         graph.removeVertex("A");
         System.out.println(graph);
         
-        System.out.println("\n" + "Removing edge from B to C");
+        System.out.println("\n" + "Testing removeEdge() | Removing edge from B to C");
         graph.removeEdge("B", "C");
         System.out.println(graph);
+        
+        
     }
 }

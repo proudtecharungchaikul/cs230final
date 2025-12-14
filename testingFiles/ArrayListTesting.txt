@@ -1,0 +1,31 @@
+---***--- Testing ArrayList ---***---
+
+Testing size(). Expect: 0 | Got: 0
+Testing isEmpty(). Expect: true | Got: true
+
+Adding elements A-K
+
+[ A, B, C, D, E, F, G, H, I, J, K, ]
+Testing size(). Expect: 11 | Got: 11
+Testing isEmpty(). Expect: false | Got: false
+
+Testing contains('E'). Expect: true | Got: true
+Testing contains('Z'). Expect: false | Got: false
+
+Testing indexOf('E'). Expect: 4 | Got: 4
+Testing indexOf('Z'). Expect: -1 | Got: -1
+
+Testing elementAt(8). Expect: I | Got: I
+Testing elementAt(15). Expect: java.lang.ArrayIndexOutOfBoundsException: index out of bounds | Got: java.lang.ArrayIndexOutOfBoundsException: index out of bounds
+Testing elementAt(-1). Expect: java.lang.ArrayIndexOutOfBoundsException: index out of bounds | Got: java.lang.ArrayIndexOutOfBoundsException: index out of bounds
+
+Testing remove(2). Expect: 'C' | Got: C
+Testing remove(10). Expect: java.lang.RuntimeException: index out of bounds | Got: java.lang.RuntimeException: index out of bounds
+Testing remove(-3). Expect: java.lang.RuntimeException: index out of bounds | Got: java.lang.RuntimeException: index out of bounds
+
+[ A, B, D, E, F, G, H, I, J, K, ]
+
+Testing remove('F') : F | expect: 'F'
+Testing remove('Z'). Expect: java.lang.RuntimeException: index out of bounds | Got: java.lang.RuntimeException: index out of bounds
+
+[ A, B, D, E, G, H, I, J, K, ]

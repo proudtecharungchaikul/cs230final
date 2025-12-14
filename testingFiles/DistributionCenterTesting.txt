@@ -1,0 +1,23 @@
+Creating a new DistributionCenter DC1
+Distribution center DC1 has inventory:{O=0, B=0, AB=0, A=0}
+Testing addBlood('A', 5). Expect: {O=0, B=0, AB=0, A=5}. Got: 
+Distribution center DC1 has inventory:{O=0, B=0, AB=0, A=5}
+Testing addBlood('X', 1). Expect: ElementNotFoundException Got: 
+Locations.exceptions.ElementNotFoundException: This is not a valid blood type. Bloodtypes: A, B, O, AB are case sensitive.
+Testing addBlood('ab', 2). Expect: ElementNotFoundExceptionGot: 
+Locations.exceptions.ElementNotFoundException: This is not a valid blood type. Bloodtypes: A, B, O, AB are case sensitive.
+Testing getAmount('A'). Expect: 5   Got: 5
+Testing getAmount('B'). Expect: 0   Got: 0
+Testing getAmount('O'). Expect: 0   Got: 0
+Testing getAmount('AB'). Expect: 0   Got: 0
+Testing getAmount('x'). Expect:   ElementNotFoundException Got: 
+Locations.exceptions.ElementNotFoundException: This is not a valid blood type. Bloodtypes: A, B, O, AB are case sensitive.
+Testing removeNBlood('A', 1). Expect: {O=0, B=0, AB=0, A=4}. Got: 
+Distribution center DC1 has inventory:{O=0, B=0, AB=0, A=4}
+Testing removeNBlood('x', 2). Expect: ElementNotFoundException. Got: 
+Locations.exceptions.ElementNotFoundException: This is not a valid blood type. Bloodtypes: A, B, O, AB are case sensitive.
+Testing removeNBlood('a', 2). Expect: ElementNotFoundException. Got: 
+Locations.exceptions.ElementNotFoundException: This is not a valid blood type. Bloodtypes: A, B, O, AB are case sensitive.
+Testing removeNBlood('A', 5). Expect: EmptyCollectionException Got: 
+Locations.exceptions.EmptyCollectionException: BloodBank for type A has 5 units.
+Testing getAmount('A'). Expect: 4 Got: 4

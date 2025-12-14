@@ -1,0 +1,14 @@
+Creating a new House H1 with blood type A
+This house has blood types A
+Creating a new House H10 with blood type X. Expect: InvalidTypeException
+Locations.exceptions.InvalidTypeException: Blood types are case-sensitive and must be A, B, O, or AB
+Creating a new House H2 with blood types A, B
+This house has blood types A, B
+Creating a new House H3 with blood types A, B, O
+This house has blood types A, B, O
+Creating a new House H4 with blood types A, B, O, AB
+This house has blood types A, B, O, AB
+Testing H1.checkType('A').  Expect: true.   Got: true
+Testing H1.checkType('B').  Expect: false.   Got: false
+Testing H1.checkType('Y').  Expect: InvalidTypeException.   Got: 
+Locations.exceptions.InvalidTypeException: Blood types are case-sensitive and must be A, B, O, or AB
