@@ -45,7 +45,7 @@ public class BloodMap extends Map<Location>
         ArrayList<Location> firstPath = new ArrayList<Location>(); //array of path to be put in queue
         firstPath.add(source); //add source node to an initial stack
         q.enqueue(firstPath); 
-        visited[0] = true; // marks source node visited
+        visited[index1] = true; // marks source node visited
 
         while(!q.isEmpty()){ 
             ArrayList<Location> currentPath = q.dequeue(); //path we are iterating through
@@ -55,14 +55,15 @@ public class BloodMap extends Map<Location>
                 }
             UpdatedLinkedList<Location> neighbors = this.arcs.elementAt(this.vertices.indexOf(currentNode)); //linked list of neighbors of currentNode
             for (int j = 0; j < neighbors.size(); j++){ //iterates through each neighboring node of current node
-                if (!visited[vertices.indexOf(neighbors.get(j))]){
+                int neighborIndex = this.vertices.indexOf(neighbors.get(j)); //finds index of neighbor
+                if (!visited[neighborIndex]){
                     ArrayList<Location> newPath = new ArrayList<Location>();
                     for (int k = 0; k < currentPath.size(); k++){
                         newPath.add(currentPath.elementAt(k));
                     }
                     newPath.add(neighbors.get(j));
                     q.enqueue(newPath);
-                    visited[j] = true;
+                    visited[neighborIndex] = true;
                 }
             }
         }
@@ -226,6 +227,8 @@ public class BloodMap extends Map<Location>
         if(house.checkType(type)){
             DistributionCenter nearest = this.nearestDC(house, 1);
             nearest.addBlood(type, 1);
+        } else {
+            System.out.println("Wrong blood type. Input valid blood type");
         }
         System.out.println("Wrong blood type. Input valid blood type");
     }
@@ -249,8 +252,9 @@ public class BloodMap extends Map<Location>
      */
     public static void main(String[] args){
         
-        //testing readTGF
-        System.out.println("Testing readTGF");
+        System.out.println("---***--- Testing BloodMap ---***---\n");
+        
+        System.out.println("Testing readTGF()");
         BloodMap newMap = readTGF("ExampleTGF.tgf");
         System.out.println("Printing newMap from tgf file");
         System.out.println(newMap);
@@ -276,6 +280,7 @@ public class BloodMap extends Map<Location>
         DistributionCenter DC1 = new DistributionCenter("DC1");
         DistributionCenter DC2 = new DistributionCenter("DC2");
         
+        System.out.println("Adding vertices to map1");
         map1.addVertex(house1);
         map1.addVertex(house2);
         map1.addVertex(house3);
@@ -295,6 +300,7 @@ public class BloodMap extends Map<Location>
         map1.addVertex(DC2);
         System.out.println(map1);
         
+        System.out.println("\nAdding edges to map1");
         map1.addEdge(house1, DC1);
         map1.addEdge(house1, house5); 
         map1.addEdge(DC1, house2);
