@@ -62,10 +62,23 @@ public class Hospital extends Location
     }
     
     /**
+     * Returns the amount of a certain blood type in the inventory
+     * 
+     * @return int of the amount
+     */
+    public int getAmount(String type){
+        try{
+            return this.inventory.get(type);
+        } catch (NullPointerException e){
+            throw new ElementNotFoundException("This is not a valid blood type. Bloodtypes: A, B, O, AB are case sensitive.");
+        }
+    }
+    
+    /**
      * @return string representation of a hospital object
      */
     public String toString(){
-        String toReturn = "Distribution center " + name + " has inventory:";
+        String toReturn = "Hospital " + name + " has inventory:";
         toReturn += this.inventory.toString(); //use hashtable toString
         return toReturn;
     }
@@ -113,6 +126,19 @@ public class Hospital extends Location
         System.out.println("Testing removeNBlood('a', 2). Expect: ElementNotFoundException. Got: ");
         try {
             H1.removeBlood("a", 2);
+        } catch (ElementNotFoundException e){
+            System.out.println(e);
+        }
+        
+        //getAmount
+        System.out.println("Testing getAmount('A'). Expect: 4   Got: " + H1.getAmount("A"));
+        System.out.println("Testing getAmount('B'). Expect: 0   Got: " + H1.getAmount("B"));
+        System.out.println("Testing getAmount('O'). Expect: 0   Got: " + H1.getAmount("O"));
+        System.out.println("Testing getAmount('AB'). Expect: 0   Got: " + H1.getAmount("AB"));
+        
+        System.out.println("Testing getAmount('x'). Expect:   ElementNotFoundException Got: ");
+        try {
+            H1.getAmount("x");
         } catch (ElementNotFoundException e){
             System.out.println(e);
         }

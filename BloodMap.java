@@ -43,7 +43,7 @@ public class BloodMap extends Map<Location>
             visited[i] = false;
         }
         ArrayList<Location> firstPath = new ArrayList<Location>(); //array of path to be put in queue
-        firstPath.add(source); //add source node to an initial stack
+        firstPath.add(source); //add source node to an initial arraylist
         q.enqueue(firstPath); 
         visited[index1] = true; // marks source node visited
 
@@ -193,6 +193,16 @@ public class BloodMap extends Map<Location>
      */
     public void transportBlood(String type, int amount, Hospital destination) {
         int closeness = 1;
+        ArrayList<DistributionCenter> visitedDCs = new ArrayList<DistributionCenter>();
+        
+        // Count how many DCs are in the graph
+        int dcCount = 0;
+                for (int i = 0; i < this.vertices.size(); i++){
+                    if (this.vertices.elementAt(i) instanceof DistributionCenter){
+                        dcCount++;
+                    }
+                }
+
         //find nearest distribution center to destination
         DistributionCenter nearest;
         try {
@@ -202,7 +212,13 @@ public class BloodMap extends Map<Location>
             return;
         }
         
+        
         while (nearest.getAmount(type) < amount){
+            if (visitedDCs.size() == dcCount){
+                    System.out.println("All Distribution Centers have been visited. No blood of type " + type + " left.");
+                return;
+                }
+            visitedDCs.add(nearest);
             int missingAmount = amount - nearest.getAmount(type);
             System.out.println("Not enough blood. Transporting " + nearest.getAmount(type) + " to hospital");
             nearest.removeBlood(type, nearest.getAmount(type)); // transports current amount
@@ -210,8 +226,11 @@ public class BloodMap extends Map<Location>
             System.out.println("Looking at next closest distribution center...");
             amount = missingAmount;
             closeness++;
+            nearest = this.nearestDC(destination, closeness);
+            
         }
-
+        
+        visitedDCs.add(nearest);
         nearest.removeBlood(type, amount);
         System.out.println("Transporting " + amount + " to hospital.");
         destination.addBlood(type, amount);
@@ -230,7 +249,6 @@ public class BloodMap extends Map<Location>
         } else {
             System.out.println("Wrong blood type. Input valid blood type");
         }
-        System.out.println("Wrong blood type. Input valid blood type");
     }
     
     /**
@@ -320,14 +338,50 @@ public class BloodMap extends Map<Location>
         map1.addEdge(house13, house11);
         map1.addEdge(house13, hospital2);
         map1.addEdge(hospital2, house12);
-        System.out.println(map1 + "\n"); 
+        System.out.println(map1 + "\n");
         
-        System.out.println("Optimal path from 'house1' to 'hospital1' Expect: [house1, house5, house6, house7, hospital1,] Got: " + map1.optimalPath(house1, hospital1));
-        //System.out.println("Optimal path from 'house1' to 'DC3' Expect: null Got: " + map1.optimalPath(house1, DC3));
+        System.out.println("--- Testing optimalPath() ---");
+        System.out.println("Optimal path from 'house1' to 'hospital1'. Expect: [house1, house5, house6, house7, hospital1] | Got: " + map1.optimalPath(house1, hospital1));
+        System.out.println("Optimal path from 'house3' to 'hospital2'. Got: " + map1.optimalPath(house3, hospital2) + "\n");
         
-    
-        System.out.println("Nearest Distribution center to 'hospital2'? Expect: DC2 Got: " + map1.nearestDC(hospital2, 1)); 
-        System.out.println("Second nearest Distribution center to 'hospital2'? Expect: DC1 Got: " + map1.nearestDC(hospital2, 2)); //still not working
+        System.out.println("--- Testing nearestDC() ---");
+        System.out.println("Nearest Distribution center to 'hospital2'. Expect: DC2 | Got: " + map1.nearestDC(hospital2, 1));
+        
+        System.out.println("Second nearest Distribution center to 'hospital2'. Expect: DC1 | Got: " + map1.nearestDC(hospital2, 2));
+        
+        try {
+            System.out.println("Third nearest Distribution center to 'hospital2'. Expect: ElementNotFoundException");
+            map1.nearestDC(hospital2, 3);
+        } catch (ElementNotFoundException e) {
+            System.out.println(e);
+        }
+        
+        System.out.println("--- Testing transportBlood() ---");
+        DC1.addBlood("O", 10);
+        System.out.println("Added 10 units of O to DC1");
+        System.out.println("Transporting 5 units of O to hospital1");
+        map1.transportBlood("O", 5, hospital1);
+        System.out.println("DC1 O: " + DC1.getAmount("O") + " | hospital1 O: " + hospital1.getAmount("O") + "\n");
+        
+        System.out.println("Testing transportBlood() with multiple DCs");
+        DC1.addBlood("A", 3);
+        DC2.addBlood("A", 4);
+        System.out.println("DC1 A: " + DC1.getAmount("A") + " | DC2 A: " + DC2.getAmount("A"));
+        System.out.println("Transporting 6 units of A to hospital2");
+        map1.transportBlood("A", 6, hospital2);
+        System.out.println("DC1 A : " + DC1.getAmount("A") + " | DC2 A : " + DC2.getAmount("A"));
+        System.out.println("hospital2 A: " + hospital2.getAmount("A") + "\n");
+        
+        System.out.println("--- Testing donateBlood() ---");
+        house1.addBloodType("B");
+        System.out.println("Add B to house1 blood types");
+        System.out.println("Donating B blood from house1. Expect");
+        map1.donateBlood("B", house1);
+        System.out.println("DC1 B: " + DC1.getAmount("B") + "\n");
+        
+        System.out.println("Donating AB blood from house1 (has B). Expect: error message");
+        map1.donateBlood("AB", house1);
+        System.out.println();
         
     }
 }
