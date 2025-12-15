@@ -32,6 +32,11 @@ public class BloodMap extends Map<Location>
         int index1 = vertices.indexOf(source);
         int index2 = vertices.indexOf(dest);
         
+        if(index1 == index2){
+            System.out.println("Source and destination are the same.");
+            return null;
+        }
+
         if (index1 == -1 || index2 == -1){
             System.out.println("At least one location is invalid");
             return null;
@@ -51,8 +56,8 @@ public class BloodMap extends Map<Location>
             ArrayList<Location> currentPath = q.dequeue(); //path we are iterating through
             Location currentNode = currentPath.elementAt(currentPath.size() - 1); //node we are iterating through (most recent node in stack)
             if (dest.equals(currentNode)){ //if our current node is the destination, return path
-                    return currentPath;
-                }
+                return currentPath;
+            }
             UpdatedLinkedList<Location> neighbors = this.arcs.elementAt(this.vertices.indexOf(currentNode)); //linked list of neighbors of currentNode
             for (int j = 0; j < neighbors.size(); j++){ //iterates through each neighboring node of current node
                 int neighborIndex = this.vertices.indexOf(neighbors.get(j)); //finds index of neighbor
@@ -70,16 +75,16 @@ public class BloodMap extends Map<Location>
         return null;
 
     }
-    
+
     /**
      * finds and returns the optimal path between an origin hospital and a distribution center destination
      * @param source    origin hospital 
      * @param dest      distribution center destination
      */
-    public ArrayList<Location> optimalDCpath(Hospital source, DistributionCenter dest){
+    public ArrayList<Location> optimalDCpath(DistributionCenter source, Hospital dest){
         return optimalPath(source, dest);
     }
-    
+
     /**
      * reads a tgf file and returns a Map object
      * @param fileName is the name of the tgf file
@@ -117,7 +122,7 @@ public class BloodMap extends Map<Location>
                     String to = edgeParts[1];
                     Location fromNode = nodes.get(from);
                     Location toNode = nodes.get(to);
-                    
+
                     newMap.addArc(fromNode, toNode);
                 }
             }
@@ -128,7 +133,7 @@ public class BloodMap extends Map<Location>
             return null;
         }
     }
-    
+
     /**
      * Finds the nearest (or second/third/etc. nearest) distribution center from origin node
      * 
@@ -143,15 +148,15 @@ public class BloodMap extends Map<Location>
             System.out.println("Invalid origin");
             return null;
         }
-        
+
         LinkedQueue<ArrayList<Location>> q = new LinkedQueue<ArrayList<Location>>(); //queue of paths to traverse through
         boolean[] visited = new boolean[this.vertices.size()]; //mark nodes visited/notvisited
-        
+
         //initialize visited to false
         for (int i = 0; i < visited.length; i++){
             visited[i] = false;
         }
-        
+
         ArrayList<Location> firstPath = new ArrayList<Location>(); //array of path to be put in queue
         firstPath.add(origin); //add source node to an initial stack
         q.enqueue(firstPath); 
@@ -165,7 +170,7 @@ public class BloodMap extends Map<Location>
                 if (currentCloseness == closeness){
                     return (DistributionCenter) currentNode; 
                 } //return if target closeness is reached
-                }
+            }
             UpdatedLinkedList<Location> neighbors = this.arcs.elementAt(this.vertices.indexOf(currentNode)); //linked list of neighbors of currentNode
             for (int j = 0; j < neighbors.size(); j++){ //iterates through each neighboring node of current node
                 int neighborIndex = this.vertices.indexOf(neighbors.get(j)); //finds index of neighbor
@@ -183,7 +188,7 @@ public class BloodMap extends Map<Location>
         }
         throw new ElementNotFoundException("Distribution center " + origin + " not found.");
     }
-    
+
     /**
      * transports specified amount and type of blood from the specified hospital to the nearest destination
      * 
@@ -194,14 +199,14 @@ public class BloodMap extends Map<Location>
     public void transportBlood(String type, int amount, Hospital destination) {
         int closeness = 1;
         ArrayList<DistributionCenter> visitedDCs = new ArrayList<DistributionCenter>();
-        
+
         // Count how many DCs are in the graph
         int dcCount = 0;
-                for (int i = 0; i < this.vertices.size(); i++){
-                    if (this.vertices.elementAt(i) instanceof DistributionCenter){
-                        dcCount++;
-                    }
-                }
+        for (int i = 0; i < this.vertices.size(); i++){
+            if (this.vertices.elementAt(i) instanceof DistributionCenter){
+                dcCount++;
+            }
+        }
 
         //find nearest distribution center to destination
         DistributionCenter nearest;
@@ -211,14 +216,10 @@ public class BloodMap extends Map<Location>
             System.out.println("There is no distribution center in this map.");
             return;
         }
-        
-        
+
         while (nearest.getAmount(type) < amount){
-            if (visitedDCs.size() == dcCount){
-                    System.out.println("All Distribution Centers have been visited. No blood of type " + type + " left.");
-                return;
-                }
             visitedDCs.add(nearest);
+            
             int missingAmount = amount - nearest.getAmount(type);
             System.out.println("Not enough blood. Transporting " + nearest.getAmount(type) + " to hospital");
             nearest.removeBlood(type, nearest.getAmount(type)); // transports current amount
@@ -226,16 +227,21 @@ public class BloodMap extends Map<Location>
             System.out.println("Looking at next closest distribution center...");
             amount = missingAmount;
             closeness++;
-            nearest = this.nearestDC(destination, closeness);
             
+            try {
+                nearest = this.nearestDC(destination, closeness);
+            } catch (ElementNotFoundException e) {
+                System.out.println("All Distribution Centers have been visited. No blood of type " + type + " left.");
+                return;
+            }
         }
-        
+
         visitedDCs.add(nearest);
         nearest.removeBlood(type, amount);
         System.out.println("Transporting " + amount + " to hospital.");
         destination.addBlood(type, amount);
     }
-    
+
     /**
      * donates blood of a specified type from a house to a distribution center.
      * 
@@ -250,36 +256,36 @@ public class BloodMap extends Map<Location>
             System.out.println("Wrong blood type. Input valid blood type");
         }
     }
-    
+
     /**
      * 
      * @return a string representation of a BloodMap
      */
     public String toString(){
         String result;
-       result = "Vertices in the graph: " + "\n";
-       for (int i=0; i<vertices.size(); i++){
+        result = "Vertices in the graph: " + "\n";
+        for (int i=0; i<vertices.size(); i++){
             result += vertices.elementAt(i).toString() + "\n";
-       }
-       result += "\n" + "Edges in the graph: " + "\n" + this.findEdges().toString();
-       return result;
+        }
+        result += "\n" + "Edges in the graph: " + "\n" + this.findEdges().toString();
+        return result;
     }
 
     /**
      * Main method for testing
      */
     public static void main(String[] args){
-        
+
         System.out.println("---***--- Testing BloodMap ---***---\n");
-        
+
         System.out.println("Testing readTGF()");
         BloodMap newMap = readTGF("ExampleTGF.tgf");
         System.out.println("Printing newMap from tgf file");
         System.out.println(newMap);
         System.out.println("Done printing.\n");
-        
+
         BloodMap map1 = new BloodMap();
-        
+
         House house1 = new House("house1"); 
         House house2 = new House("house2"); 
         House house3 = new House("house3"); 
@@ -297,7 +303,7 @@ public class BloodMap extends Map<Location>
         Hospital hospital2 = new Hospital("hospital2");
         DistributionCenter DC1 = new DistributionCenter("DC1");
         DistributionCenter DC2 = new DistributionCenter("DC2");
-        
+
         System.out.println("Adding vertices to map1");
         map1.addVertex(house1);
         map1.addVertex(house2);
@@ -317,7 +323,7 @@ public class BloodMap extends Map<Location>
         map1.addVertex(DC1);
         map1.addVertex(DC2);
         System.out.println(map1);
-        
+
         System.out.println("\nAdding edges to map1");
         map1.addEdge(house1, DC1);
         map1.addEdge(house1, house5); 
@@ -339,30 +345,41 @@ public class BloodMap extends Map<Location>
         map1.addEdge(house13, hospital2);
         map1.addEdge(hospital2, house12);
         System.out.println(map1 + "\n");
-        
+
         System.out.println("--- Testing optimalPath() ---");
         System.out.println("Optimal path from 'house1' to 'hospital1'. Expect: [house1, house5, house6, house7, hospital1] | Got: " + map1.optimalPath(house1, hospital1));
-        System.out.println("Optimal path from 'house3' to 'hospital2'. Got: " + map1.optimalPath(house3, hospital2) + "\n");
+        System.out.println("Optimal path from 'house3' to 'hospital2'. Expect: [house3, hospital1, house7, house9, house13, hospital2] | Got: " + map1.optimalPath(house3, hospital2) + "\n");
+        //doesn't exist
+        House house14 = new House("house14");
+        System.out.println("Optimal path from 'house3' to 'house14'. Expect: At least one location is invalid., return: null | Got: ");
+        System.out.println(map1.optimalPath(house3, house14) + "\n");
+        //path doesnt exist
+        map1.addVertex(house14);
+        System.out.println("Optimal path from 'house3' to 'house14'. Expect: null | Got: " + map1.optimalPath(house3, house14) + "\n");
+        //same source and destination
+        System.out.println("Optimal path from 'house3' to 'house3'. Expect: Source and destination are the same. Return: null | Got: " + map1.optimalPath(house3, house3) + "\n");
+        
+        System.out.println("--- Testing optimalDCPath() ---");
+        System.out.println("Optimal path from 'DC2' to 'house3' Expect: [DC2, house8, house7, H1, house3] | Got: " + map1.optimalPath(DC2, house3));
         
         System.out.println("--- Testing nearestDC() ---");
         System.out.println("Nearest Distribution center to 'hospital2'. Expect: DC2 | Got: " + map1.nearestDC(hospital2, 1));
-        
         System.out.println("Second nearest Distribution center to 'hospital2'. Expect: DC1 | Got: " + map1.nearestDC(hospital2, 2));
-        
+
         try {
             System.out.println("Third nearest Distribution center to 'hospital2'. Expect: ElementNotFoundException");
             map1.nearestDC(hospital2, 3);
         } catch (ElementNotFoundException e) {
             System.out.println(e);
         }
-        
+
         System.out.println("--- Testing transportBlood() ---");
         DC1.addBlood("O", 10);
         System.out.println("Added 10 units of O to DC1");
         System.out.println("Transporting 5 units of O to hospital1");
         map1.transportBlood("O", 5, hospital1);
         System.out.println("DC1 O: " + DC1.getAmount("O") + " | hospital1 O: " + hospital1.getAmount("O") + "\n");
-        
+
         System.out.println("Testing transportBlood() with multiple DCs");
         DC1.addBlood("A", 3);
         DC2.addBlood("A", 4);
@@ -371,17 +388,17 @@ public class BloodMap extends Map<Location>
         map1.transportBlood("A", 6, hospital2);
         System.out.println("DC1 A : " + DC1.getAmount("A") + " | DC2 A : " + DC2.getAmount("A"));
         System.out.println("hospital2 A: " + hospital2.getAmount("A") + "\n");
-        
+
         System.out.println("--- Testing donateBlood() ---");
         house1.addBloodType("B");
         System.out.println("Add B to house1 blood types");
-        System.out.println("Donating B blood from house1. Expect");
+        System.out.println("Donating B blood from house1. Expect: DC1 B:1 ");
         map1.donateBlood("B", house1);
         System.out.println("DC1 B: " + DC1.getAmount("B") + "\n");
-        
+
         System.out.println("Donating AB blood from house1 (has B). Expect: error message");
         map1.donateBlood("AB", house1);
         System.out.println();
-        
+
     }
 }
