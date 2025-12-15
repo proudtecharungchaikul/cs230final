@@ -84,7 +84,7 @@ public class BloodMap extends Map<Location>
      * @param fileName is the name of the tgf file
      * @return a bloodmap
      */
-    public BloodMap readTGF(String fileName) throws IOException {
+    public static BloodMap readTGF(String fileName){
         try{
             BloodMap newMap = new BloodMap(); 
             Scanner fileScan = new Scanner (new File(fileName)); 
@@ -248,6 +248,14 @@ public class BloodMap extends Map<Location>
      * Main method for testing
      */
     public static void main(String[] args){
+        
+        //testing readTGF
+        System.out.println("Testing readTGF");
+        BloodMap newMap = readTGF("ExampleTGF.tgf");
+        System.out.println("Printing newMap from tgf file");
+        System.out.println(newMap);
+        System.out.println("Done printing.\n");
+        
         BloodMap map1 = new BloodMap();
         
         House house1 = new House("house1"); 

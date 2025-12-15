@@ -17,12 +17,22 @@ Hospital1
 Hospital2
 #
 House1 DistributionCenter1
+DistributionCenter1 House1
 House1 House3
+House3 House1
 DistributionCenter1 House2
+House2 DistributionCenter1
 House2 House6
+House6 House2
 House3 Hospital1
+Hospital1 House3
 Hospital1 House4
+House4 Hospital1
 Hospital1 House7
+House7 Hospital1
 House5 House1
-House5 House 6
+House1 House5
+House5 House6
+House6 House5
 House5 DistributionCenter2
+DistributionCenter2 House5
