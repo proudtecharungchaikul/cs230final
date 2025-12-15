@@ -95,7 +95,7 @@ public class BloodMap extends Map<Location>
                 if (line.equals("#")){
                     readingNodes = false;
                 } else if (readingNodes == true){
-                    if(line.contains("Distribution Center")){
+                    if(line.contains("DistributionCenter")){
                         DistributionCenter newDC = new DistributionCenter(line);
                         newMap.addVertex(newDC);
                         nodes.put(line, newDC);
@@ -238,7 +238,7 @@ public class BloodMap extends Map<Location>
         String result;
        result = "Vertices in the graph: " + "\n";
        for (int i=0; i<vertices.size(); i++){
-            result += vertices.elementAt(i).toString() + ", ";
+            result += vertices.elementAt(i).toString() + "\n";
        }
        result += "\n" + "Edges in the graph: " + "\n" + this.findEdges().toString();
        return result;

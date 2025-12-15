@@ -2,6 +2,7 @@ package javafoundations;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.File;
+import javafoundations.exceptions.*;
 
 /**
  * Write a description of class Map here.
@@ -96,10 +97,9 @@ public class Map<T> implements Graph<T>
      * 
      * @param vertex vertex to be added
      */
-    public void addVertex (T vertex){
+    public void addVertex (T vertex) throws AlreadyExistsException{
         if (vertices.contains(vertex)){
-            System.out.println("Vertex already exists");
-            return; 
+            throw new AlreadyExistsException("Vertex already exists");
             }
         
         vertices.add(vertex); 
@@ -123,6 +123,8 @@ public class Map<T> implements Graph<T>
             }
             arcs.remove(vertices.indexOf(vertex));
             vertices.remove(vertex);
+        } else {
+            throw new ElementNotFoundException("Vertex does not exist.");
         }
     }
 
@@ -133,14 +135,16 @@ public class Map<T> implements Graph<T>
      * @param vertex1 the first vertex
      * @param vertex2 the second vertex
      */
-    public void addArc (T vertex1, T vertex2){
+    public void addArc (T vertex1, T vertex2) throws ElementNotFoundException, AlreadyExistsException {
         int index1 = vertices.indexOf(vertex1); //gives us the index of the linked list of vertex1
         int index2 = vertices.indexOf(vertex2);
-        
         if (index1 == -1 || index2 == -1) {
-            System.out.println("Invalid vertices");
-            return; 
+            throw new ElementNotFoundException("Invalid vertices");
         }
+        UpdatedLinkedList<T> vert1Arcs = arcs.elementAt(index1);
+        if (vert1Arcs.contains(vertex2)){
+            throw new AlreadyExistsException("Arc already exists");
+            }
         UpdatedLinkedList<T> arcList = arcs.elementAt(index1); 
        
         arcList.insert(0, vertex2); 
@@ -154,14 +158,16 @@ public class Map<T> implements Graph<T>
      * @param vertex1 the first vertex
      * @param vertex2 the second vertex
      */
-    public void removeArc (T vertex1, T vertex2){
+    public void removeArc (T vertex1, T vertex2) throws ElementNotFoundException{
         int index1 = vertices.indexOf(vertex1);
         int index2 = vertices.indexOf(vertex2);
-        UpdatedLinkedList<T> vert1Arcs = arcs.elementAt(index1);
         
-        if (index1 == -1 || index2 == -1 || !vert1Arcs.contains(vertex2)) {
-            System.out.println("Arc does not exist");
-            return; 
+        if (index1 == -1 || index2 == -1) {
+            throw new ElementNotFoundException("Arc does not exist");
+        }
+        UpdatedLinkedList<T> vert1Arcs = arcs.elementAt(index1);
+        if (!vert1Arcs.contains(vertex2)) {
+            throw new ElementNotFoundException("Arc does not exist");
         }
         
         int vert2InVert1List = vert1Arcs.indexOf(vertex2); 
@@ -176,9 +182,15 @@ public class Map<T> implements Graph<T>
      * @param vertex1 the first vertex
      * @param vertex2 the second vertex
      */
-    public void addEdge (T vertex1, T vertex2) {
-       this.addArc(vertex1, vertex2);
-       this.addArc(vertex2, vertex1); 
+    public void addEdge (T vertex1, T vertex2) throws ElementNotFoundException, AlreadyExistsException{
+        try{
+            this.addArc(vertex1, vertex2);
+            this.addArc(vertex2, vertex1); 
+        } catch (ElementNotFoundException e){
+            throw new ElementNotFoundException("Invalid vertices");
+        } catch (AlreadyExistsException e){
+            throw new AlreadyExistsException("Edge already exists.");
+        }
     }
 
     /**
@@ -188,9 +200,13 @@ public class Map<T> implements Graph<T>
      * @param vertex1 the first vertex
      * @param vertex2 the second vertex
      */
-    public void removeEdge (T vertex1, T vertex2) {
-       this.removeArc(vertex1, vertex2);
-       this.removeArc(vertex2, vertex1); 
+    public void removeEdge (T vertex1, T vertex2) throws ElementNotFoundException {
+        try{
+            this.removeArc(vertex1, vertex2);
+            this.removeArc(vertex2, vertex1); 
+        } catch (ElementNotFoundException e){
+            throw new ElementNotFoundException("Edge does not exist");
+        }
     }
     
     /**
@@ -279,15 +295,29 @@ public class Map<T> implements Graph<T>
         graph.addVertex("B");
         graph.addVertex("C");
         graph.addVertex("D");
-        graph.addVertex("D"); 
+        try{
+            graph.addVertex("D"); 
+        } catch (AlreadyExistsException e){
+            System.out.println(e);
+        }
         System.out.println(graph);
         
-        System.out.println("\n" + "Testing addEdges() | Adding edges (A, B), (A, C), (A, D), (B, C), (C, D)");
+        System.out.println("\n" + "Testing addEdges() | Adding edges (A, B), (A, C), (A, D), (B, C), (C, D), (A, B), (X, B)");
         graph.addEdge("A", "B");
         graph.addEdge("A", "C");
         graph.addEdge("A", "D");
         graph.addEdge("B", "C");
         graph.addEdge("C", "D");
+        try {
+            graph.addEdge("A", "B");
+        } catch (AlreadyExistsException e){
+            System.out.println(e);
+        }
+        try {
+            graph.addEdge("X", "B");
+        } catch (ElementNotFoundException e){
+            System.out.println(e);
+        }
         System.out.println(graph);
         
         System.out.println("\n" + "--- Testing isArc() ---"); 
@@ -302,19 +332,45 @@ public class Map<T> implements Graph<T>
         graph.addArc("B", "D"); 
         System.out.println("Is (B, D) an arc? Expect: true | Got: " + graph.isArc("B", "D")); 
         System.out.println("Is (B, D) an edge? Expect: false | Got: " + graph.isEdge("B", "D") + "\n"); 
+        System.out.println("\n" + "Testing addArc() | Adding arc (B, Z). Expect: ElementNotFoundException"); 
+        try {
+            graph.addArc("B", "Z");
+        } catch (ElementNotFoundException e){
+            System.out.println(e);
+        }
         
         System.out.println("Testing removeArc() | Removing arc (B, D)"); 
         graph.removeArc("B", "D");
         System.out.println("Is (B, D) an arc? Expect: false | Got: " + graph.isArc("B", "D")); 
         System.out.println(graph);
+        System.out.println("Testing removeArc() | Removing arc (B, D). Expect: ElementNotFoundException"); 
+        try {
+            graph.removeArc("B", "D");
+        } catch (ElementNotFoundException e){
+            System.out.println(e);
+        }
         
         System.out.println("\n" + "Testing removeVertex() | Removing vertex A.");
         graph.removeVertex("A");
         System.out.println(graph);
+        System.out.println("\nTesting removeVertex() | Removing vertex Y. Expect: ElementNotFoundException");
+        try {
+            graph.removeVertex("Y");
+        } catch (ElementNotFoundException e){
+            System.out.println(e);
+        }
+        
         
         System.out.println("\n" + "Testing removeEdge() | Removing edge from B to C");
         graph.removeEdge("B", "C");
         System.out.println(graph);
+        
+        System.out.println("\n" + "Testing removeEdge() | Removing edge from X to Y | Expect: ElementNotFoundException");
+        try {
+            graph.removeEdge("X", "Y");
+        } catch (ElementNotFoundException e){
+            System.out.println(e);
+        }
         
         
     }

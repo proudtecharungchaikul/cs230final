@@ -69,12 +69,13 @@ public class House extends Location
      * @return a string representation of a House object
      */
     public String toString(){
-        String toReturn = "This house has blood types ";
-        for (int i = 0; i < bloodTypes.length - 1; i++){
-            toReturn += bloodTypes[i] + ", ";
+        String toReturn = this.name + " (Blood types: ";
+        for (int i = 0; i < bloodTypes.length; i++){
+            if (bloodTypes[i] != null){
+                toReturn += bloodTypes[i] + ", ";
+            }
         }
-        toReturn += bloodTypes[bloodTypes.length - 1];
-        
+        toReturn += ")";
         return toReturn;
     }
     

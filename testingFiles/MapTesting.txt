@@ -9,13 +9,15 @@ Edges in the graph:
 [ ]
 
 Testing addVertex() | Adding vertices A, B, C, D, D
-Vertex already exists
+javafoundations.exceptions.AlreadyExistsException: Vertex already exists
 Vertices in the graph: 
 [ A, B, C, D, ]
 Edges in the graph: 
 [ ]
 
-Testing addEdges() | Adding edges (A, B), (A, C), (A, D), (B, C), (C, D)
+Testing addEdges() | Adding edges (A, B), (A, C), (A, D), (B, C), (C, D), (A, B), (X, B)
+javafoundations.exceptions.AlreadyExistsException: Edge already exists.
+javafoundations.exceptions.ElementNotFoundException: Invalid vertices
 Vertices in the graph: 
 [ A, B, C, D, ]
 Edges in the graph: 
@@ -36,12 +38,17 @@ Testing addArc() | Adding arc (B, D)
 Is (B, D) an arc? Expect: true | Got: true
 Is (B, D) an edge? Expect: false | Got: false
 
+
+Testing addArc() | Adding arc (B, Z). Expect: ElementNotFoundException
+javafoundations.exceptions.ElementNotFoundException: Invalid vertices
 Testing removeArc() | Removing arc (B, D)
 Is (B, D) an arc? Expect: false | Got: false
 Vertices in the graph: 
 [ A, B, C, D, ]
 Edges in the graph: 
 [ (A, D), (A, C), (A, B), (B, C), (C, D), ]
+Testing removeArc() | Removing arc (B, D). Expect: ElementNotFoundException
+javafoundations.exceptions.ElementNotFoundException: Arc does not exist
 
 Testing removeVertex() | Removing vertex A.
 Vertices in the graph: 
@@ -49,8 +56,14 @@ Vertices in the graph:
 Edges in the graph: 
 [ (B, C), (C, D), ]
 
+Testing removeVertex() | Removing vertex Y. Expect: ElementNotFoundException
+javafoundations.exceptions.ElementNotFoundException: Vertex does not exist.
+
 Testing removeEdge() | Removing edge from B to C
 Vertices in the graph: 
 [ B, C, D, ]
 Edges in the graph: 
 [ (C, D), ]
+
+Testing removeEdge() | Removing edge from X to Y | Expect: ElementNotFoundException
+javafoundations.exceptions.ElementNotFoundException: Edge does not exist
