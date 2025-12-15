@@ -28,6 +28,4 @@ public abstract class Location
      */public String toString(){
         return this.name ;
     }
-    
-    
 }

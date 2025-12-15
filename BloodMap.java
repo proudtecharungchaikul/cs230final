@@ -346,7 +346,11 @@ public class BloodMap extends Map<Location>
         map1.addEdge(house13, hospital2);
         map1.addEdge(hospital2, house12);
         System.out.println(map1 + "\n");
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 69d0063 (dont think i changed anything)
         System.out.println("--- Testing optimalPath() ---");
         System.out.println("Optimal path from 'house1' to 'hospital1'. Expect: [house1, house5, house6, house7, hospital1] | Got: " + map1.optimalPath(house1, hospital1));
         System.out.println("Optimal path from 'house3' to 'hospital2'. Expect: [house3, hospital1, house7, house9, house13, hospital2] | Got: " + map1.optimalPath(house3, hospital2) + "\n");

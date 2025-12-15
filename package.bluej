@@ -1,16 +1,29 @@
 #BlueJ package file
+<<<<<<< HEAD
 editor.fx.0.height=852
 editor.fx.0.width=1189
 editor.fx.0.x=315
 editor.fx.0.y=38
 objectbench.height=89
+=======
+editor.fx.0.height=728
+editor.fx.0.width=800
+editor.fx.0.x=199
+editor.fx.0.y=105
+objectbench.height=79
+>>>>>>> 69d0063 (dont think i changed anything)
 objectbench.width=776
 package.divider.horizontal=0.6
-package.divider.vertical=0.8208955223880597
-package.editor.height=433
+package.divider.vertical=0.8395522388059702
+package.editor.height=443
 package.editor.width=684
+<<<<<<< HEAD
 package.editor.x=427
 package.editor.y=53
+=======
+package.editor.x=47
+package.editor.y=192
+>>>>>>> 69d0063 (dont think i changed anything)
 package.frame.height=600
 package.frame.width=800
 package.numDependencies=0
@@ -27,24 +40,38 @@ target1.height=70
 target1.name=BloodMap
 target1.showInterface=false
 target1.type=ClassTarget
-target1.width=150
-target1.x=260
-target1.y=30
+target1.width=130
+target1.x=420
+target1.y=50
 target2.height=82
 target2.name=testingFiles
 target2.type=PackageTarget
 target2.width=120
+<<<<<<< HEAD
 target2.x=10
 target2.y=110
+=======
+target2.x=20
+target2.y=310
+>>>>>>> 69d0063 (dont think i changed anything)
 target3.height=82
 target3.name=Locations
 target3.type=PackageTarget
 target3.width=120
+<<<<<<< HEAD
 target3.x=490
+=======
+target3.x=270
+>>>>>>> 69d0063 (dont think i changed anything)
 target3.y=50
 target4.height=82
 target4.name=javafoundations
 target4.type=PackageTarget
 target4.width=120
+<<<<<<< HEAD
 target4.x=70
 target4.y=10
+=======
+target4.x=120
+target4.y=50
+>>>>>>> 69d0063 (dont think i changed anything)
