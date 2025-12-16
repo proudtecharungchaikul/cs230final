@@ -54,7 +54,7 @@ public class UpdatedLinkedList<T> extends LinkedList<T>
     public static void main(String[] args){
         //New UpdatedLinkedList
         System.out.println("Creating new UpdatedLinkedList ULL");
-        UpdatedLinkedList ULL = new UpdatedLinkedList();
+        UpdatedLinkedList<String> ULL = new UpdatedLinkedList<String>();
         
         //Adding elems
         System.out.println("Adding elems C, B, A to ULL");
