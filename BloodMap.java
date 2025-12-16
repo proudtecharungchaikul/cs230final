@@ -186,7 +186,7 @@ public class BloodMap extends Map<Location>
                 }
             }
         }
-        throw new ElementNotFoundException("Distribution center " + origin + " not found.");
+        throw new ElementNotFoundException(origin + " not found.");
     }
 
     /**
@@ -198,49 +198,47 @@ public class BloodMap extends Map<Location>
      */
     public void transportBlood(String type, int amount, Hospital destination) {
         int closeness = 1;
-        ArrayList<DistributionCenter> visitedDCs = new ArrayList<DistributionCenter>();
-
-        // Count how many DCs are in the graph
-        int dcCount = 0;
-        for (int i = 0; i < this.vertices.size(); i++){
-            if (this.vertices.elementAt(i) instanceof DistributionCenter){
-                dcCount++;
-            }
+        if (amount < 1){
+            System.out.println("Amount must be at least 1.");
+            return;
         }
-
         //find nearest distribution center to destination
         DistributionCenter nearest;
         try {
             nearest = this.nearestDC(destination, closeness);
         } catch (ElementNotFoundException e){
-            System.out.println("There is no distribution center in this map.");
+            System.out.println("Distribution center cannot be reached.");
             return;
         }
-
-        while (nearest.getAmount(type) < amount){
-            visitedDCs.add(nearest);
-            
-            int missingAmount = amount - nearest.getAmount(type);
-            int bloodToTransport = nearest.getAmount(type);
-            System.out.println("Not enough blood. Transporting " + bloodToTransport + " to hospital");
-            nearest.removeBlood(type, bloodToTransport);
-            destination.addBlood(type, bloodToTransport);
-            System.out.println("Looking at next closest distribution center...");
-            amount = missingAmount;
-            closeness++;
-            
-            try {
-                nearest = this.nearestDC(destination, closeness);
-            } catch (ElementNotFoundException e) {
-                System.out.println("All Distribution Centers have been visited. No blood of type " + type + " left.");
-                return;
+        try{
+            while (nearest.getAmount(type) < amount){
+                try {
+                    nearest = this.nearestDC(destination, closeness);
+                } catch (javafoundations.exceptions.ElementNotFoundException e) {
+                    System.out.println("All Distribution Centers have been visited. No blood of type " + type + " left.");
+                    return;
+                }
+                
+                int missingAmount = amount - nearest.getAmount(type);
+                int bloodToTransport = nearest.getAmount(type);
+                System.out.println("Not enough blood. Transporting " + bloodToTransport + " to hospital");
+                nearest.removeBlood(type, bloodToTransport);
+                destination.addBlood(type, bloodToTransport);
+                System.out.println("Looking at next closest distribution center...");
+                amount = missingAmount;
+                closeness++;
+                
+                
             }
+            
+            nearest.removeBlood(type, amount);
+            System.out.println("Transporting " + amount + " to hospital.");
+            destination.addBlood(type, amount);
+        } catch (NullPointerException e){
+            System.out.println("Distribution center cannot be reached.");
+        } catch (Locations.exceptions.ElementNotFoundException e){
+            System.out.println(e);
         }
-
-        visitedDCs.add(nearest);
-        nearest.removeBlood(type, amount);
-        System.out.println("Transporting " + amount + " to hospital.");
-        destination.addBlood(type, amount);
     }
 
     /**
@@ -251,8 +249,12 @@ public class BloodMap extends Map<Location>
      */
     public void donateBlood(String type, House house) {
         if(house.checkType(type)){
-            DistributionCenter nearest = this.nearestDC(house, 1);
-            nearest.addBlood(type, 1);
+            try {
+                DistributionCenter nearest = this.nearestDC(house, 1);
+                nearest.addBlood(type, 1);
+            } catch (ElementNotFoundException e) {
+                System.out.println("No distribution center can be reached from this house.");
+            }
         } else {
             System.out.println("Wrong blood type. Input valid blood type");
         }
@@ -346,11 +348,7 @@ public class BloodMap extends Map<Location>
         map1.addEdge(house13, hospital2);
         map1.addEdge(hospital2, house12);
         System.out.println(map1 + "\n");
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> 69d0063 (dont think i changed anything)
         System.out.println("--- Testing optimalPath() ---");
         System.out.println("Optimal path from 'house1' to 'hospital1'. Expect: [house1, house5, house6, house7, hospital1] | Got: " + map1.optimalPath(house1, hospital1));
         System.out.println("Optimal path from 'house3' to 'hospital2'. Expect: [house3, hospital1, house7, house9, house13, hospital2] | Got: " + map1.optimalPath(house3, hospital2) + "\n");
@@ -379,11 +377,11 @@ public class BloodMap extends Map<Location>
         }
 
         System.out.println("--- Testing transportBlood() ---");
-        DC1.addBlood("O", 10);
-        System.out.println("Added 10 units of O to DC1");
+        DC2.addBlood("O", 10);
+        System.out.println("Added 10 units of O to DC2");
         System.out.println("Transporting 5 units of O to hospital1");
         map1.transportBlood("O", 5, hospital1);
-        System.out.println("DC1 O: " + DC1.getAmount("O") + " | hospital1 O: " + hospital1.getAmount("O") + "\n");
+        System.out.println("DC2 O: " + DC2.getAmount("O") + " | hospital1 O: " + hospital1.getAmount("O") + "\n");
 
         System.out.println("Testing transportBlood() with multiple DCs");
         DC1.addBlood("A", 3);
@@ -393,6 +391,38 @@ public class BloodMap extends Map<Location>
         map1.transportBlood("A", 6, hospital2);
         System.out.println("DC1 A : " + DC1.getAmount("A") + " | DC2 A : " + DC2.getAmount("A"));
         System.out.println("hospital2 A: " + hospital2.getAmount("A") + "\n");
+
+        System.out.println("Testing transportBlood() with not enough blood across all DCs");
+        DC1.addBlood("B", 2);
+        DC2.addBlood("B", 2);
+        System.out.println("DC1 B: " + DC1.getAmount("B") + " | DC2 B: " + DC2.getAmount("B"));
+        System.out.println("Transporting 10 units of B to hospital2. Expect: All Distribution Centers have been visited. No blood of type B left.");
+        map1.transportBlood("B", 10, hospital2);
+        System.out.println("DC1 B: " + DC1.getAmount("B") + " | DC2 B: " + DC2.getAmount("B"));
+        System.out.println("hospital2 B: " + hospital2.getAmount("B") + "\n");
+        
+        System.out.println("Testing transportBlood() with isolated hospital");
+        Hospital isolatedHospital = new Hospital("isolatedHospital");
+        map1.addVertex(isolatedHospital);
+        System.out.println("Created isolated hospital with no connections to DCs");
+        System.out.println("Transporting 5 units of O to isolatedHospital. Expect: Distribution Center cannot be reached.");
+        map1.transportBlood("O", 5, isolatedHospital);
+        System.out.println();
+        
+        System.out.println("Testing transportBlood() with destination hospital not in map");
+        Hospital notInMapHospital = new Hospital("notInMapHospital");
+        System.out.println("Transporting 5 units of O to notInMapHospital (not in map). Expect: Distribution center cannot be reached.");
+        map1.transportBlood("O", 5, notInMapHospital);
+        System.out.println();
+        
+        System.out.println("Testing transportBlood() with amount less than 1");
+        System.out.println("Transporting 0 units of O to hospital1. Expect: Amount must be at least 1.");
+        map1.transportBlood("O", 0, hospital1);
+        
+        System.out.println("Testing transportBlood() with invalid blood type");
+        System.out.println("Transporting 5 units of X to hospital1. Expect: Transporting 0 to hospital.");
+        map1.transportBlood("X", 5, hospital1);
+        System.out.println();
 
         System.out.println("--- Testing donateBlood() ---");
         house1.addBloodType("B");
