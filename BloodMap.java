@@ -221,9 +221,10 @@ public class BloodMap extends Map<Location>
             visitedDCs.add(nearest);
             
             int missingAmount = amount - nearest.getAmount(type);
-            System.out.println("Not enough blood. Transporting " + nearest.getAmount(type) + " to hospital");
-            nearest.removeBlood(type, nearest.getAmount(type)); // transports current amount
-            destination.addBlood(type, nearest.getAmount(type));
+            int bloodToTransport = nearest.getAmount(type);
+            System.out.println("Not enough blood. Transporting " + bloodToTransport + " to hospital");
+            nearest.removeBlood(type, bloodToTransport);
+            destination.addBlood(type, bloodToTransport);
             System.out.println("Looking at next closest distribution center...");
             amount = missingAmount;
             closeness++;

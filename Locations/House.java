@@ -28,18 +28,10 @@ public class House extends Location
      * @param type of blood
      */
     public void addBloodType(String type) throws InvalidTypeException{
-        boolean bloodTypesContainsType;
-        if(type != "A" || type!="B" || type!="O" || type!="AB"){
-            for (int i = 0; i < bloodTypes.length; i++){
-                if (type == bloodTypes[i]){
-                    bloodTypesContainsType = true;
-                } else {
-                    return;
-                }
-            } 
-            bloodTypes[count] = type;
-        } else {
+        if(type != "A" && type!="B" && type!="O" && type!="AB"){
             throw new InvalidTypeException("Blood types are case-sensitive and must be A, B, O, or AB");
+        } else {
+            bloodTypes[count] = type;
         }
         
     }
