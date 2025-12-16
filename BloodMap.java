@@ -144,6 +144,11 @@ public class BloodMap extends Map<Location>
     private DistributionCenter nearestDC(Location origin, int closeness) throws ElementNotFoundException{
         int index1 = this.vertices.indexOf(origin);
         int currentCloseness = 0;
+        
+        if (closeness < 1) {
+            System.out.println("Invalid distance"); 
+            return null; 
+        }
         if (index1 == -1){
             System.out.println("Invalid origin");
             return null;
@@ -363,7 +368,12 @@ public class BloodMap extends Map<Location>
         System.out.println("Optimal path from 'house3' to 'house3'. Expect: Source and destination are the same. Return: null | Got: " + map1.optimalPath(house3, house3) + "\n");
         
         System.out.println("--- Testing optimalDCPath() ---");
-        System.out.println("Optimal path from 'DC2' to 'house3' Expect: [DC2, house8, house7, H1, house3] | Got: " + map1.optimalPath(DC2, house3));
+        System.out.println("Optimal path from 'DC2' to 'H1' Expect: [DC2, house8, house7, H1,] | Got: " + map1.optimalDCpath(DC2, hospital1) + "\n");
+        
+        Hospital hospital3 = new Hospital("hospital3"); 
+        map1.addVertex(hospital3); 
+        System.out.println("Testing optimalDCPath() that doesn't work");
+        System.out.println("Optimal path from 'DC2' to 'hospital3'. Expect:  null| Got: " + map1.optimalDCpath(DC2, hospital3) + "\n"); 
         
         System.out.println("--- Testing nearestDC() ---");
         System.out.println("Nearest Distribution center to 'hospital2'. Expect: DC2 | Got: " + map1.nearestDC(hospital2, 1));
@@ -375,8 +385,15 @@ public class BloodMap extends Map<Location>
         } catch (ElementNotFoundException e) {
             System.out.println(e);
         }
-
-        System.out.println("--- Testing transportBlood() ---");
+        
+        System.out.println("\n" + "Testing nearestDC() on an invalid origin");
+        House house15 = new House("house15"); 
+        System.out.println("Nearest Distribution center to 'house15'. Expect: null | Got: " + map1.nearestDC(house15, 1)); 
+        
+        System.out.println("\n" + "Testing nearestDC() with closeness of 0"); 
+        System.out.println("Zeroth closest Distribution center to 'hospital2'. Expect: null | Got: " + map1.nearestDC(hospital2, 0));
+        
+        System.out.println("\n" + "--- Testing transportBlood() ---");
         DC2.addBlood("O", 10);
         System.out.println("Added 10 units of O to DC2");
         System.out.println("Transporting 5 units of O to hospital1");
@@ -425,15 +442,26 @@ public class BloodMap extends Map<Location>
         System.out.println();
 
         System.out.println("--- Testing donateBlood() ---");
+        //normal, works properly
         house1.addBloodType("B");
         System.out.println("Add B to house1 blood types");
         System.out.println("Donating B blood from house1. Expect: DC1 B:1 ");
         map1.donateBlood("B", house1);
         System.out.println("DC1 B: " + DC1.getAmount("B") + "\n");
-
+        
+        //house inputed wrong blood type
+        System.out.println("Testing donateBlood() with wrong blood type"); 
         System.out.println("Donating AB blood from house1 (has B). Expect: error message");
         map1.donateBlood("AB", house1);
         System.out.println();
-
+        
+        //house 
+        System.out.println("Testing donateBlood() with house that is not in Map");
+        House isolatedHouse = new House("isolatedHouse");
+        map1.addVertex(isolatedHouse); 
+        isolatedHouse.addBloodType("A");
+        map1.donateBlood("A", isolatedHouse);
+        System.out.println();
+                
     }
 }
