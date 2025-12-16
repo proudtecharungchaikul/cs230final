@@ -86,7 +86,7 @@ public class BloodMap extends Map<Location>
     }
 
     /**
-     * reads a tgf file and returns a Map object
+     * reads a tgf file and returns a Map object. Assumes file is in correct format and must include strings "Hospital", "Distribution Center", and "House" to be typed, without spaces in the name
      * @param fileName is the name of the tgf file
      * @return a bloodmap
      */
@@ -291,6 +291,10 @@ public class BloodMap extends Map<Location>
         System.out.println("Printing newMap from tgf file");
         System.out.println(newMap);
         System.out.println("Done printing.\n");
+        System.out.println("Testing readTGF(NotAFilePath.tgf). Expect: IOException. Got:");
+        BloodMap newMap2 = readTGF("NotAFilePath.tgf");
+
+
 
         BloodMap map1 = new BloodMap();
 
